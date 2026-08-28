@@ -15,6 +15,12 @@
 python .\step_geometry_encoder.py "C:\Users\LENOVO\Desktop\motor.STEP" --output .\motor_v4_output
 ```
 
+使用仓库内附带的示例数据：
+
+```powershell
+python .\step_geometry_encoder.py .\data\input\motor.STEP --output .\motor_v4_output
+```
+
 重复调参时可复用标准化零件：
 
 ```powershell

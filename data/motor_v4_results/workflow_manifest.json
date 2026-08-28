@@ -1,0 +1,398 @@
+{
+  "schema": 1,
+  "run_id": "20260828T082054.627956Z",
+  "status": "completed",
+  "started_at": "2026-08-28T08:20:54.627992+00:00",
+  "source_sha256": "fc09d281fba7f3ab84265cf91e22022170db67e34eda8f2533f710426bc20ce3",
+  "git_revision": "6f5a22df5c1038a2a5c0a3ec87a875e0c00112b4",
+  "runtime": {
+    "python": "3.13.13",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "config": {
+    "step_file": "C:\\Users\\LENOVO\\Desktop\\motor.STEP",
+    "output": "motor_v4_output",
+    "mode": "strict",
+    "threshold": 0.12,
+    "size_tolerance": 0.03,
+    "wl_iterations": 3,
+    "drawexe": null,
+    "reuse_cache": true,
+    "skip_step_export": false,
+    "allow_unknown_geometry": false,
+    "precision_mode": "boolean",
+    "vertex_tolerance": 1e-05,
+    "boolean_relative_tolerance": 1e-06,
+    "precision_workers": 4
+  },
+  "stages": [
+    {
+      "name": "normalize",
+      "status": "completed",
+      "started_at": "2026-08-28T08:20:54.719253+00:00",
+      "metrics": {
+        "part_count": 84,
+        "cache_hit": true
+      },
+      "duration_seconds": 6.302749199999994
+    },
+    {
+      "name": "feature_collection",
+      "status": "completed",
+      "started_at": "2026-08-28T08:21:01.026773+00:00",
+      "metrics": {
+        "part_count": 84
+      },
+      "duration_seconds": 3.6138657000000194
+    },
+    {
+      "name": "similarity",
+      "status": "completed",
+      "started_at": "2026-08-28T08:21:04.643354+00:00",
+      "metrics": {
+        "part_count": 84,
+        "nonpositive_volume_parts": [],
+        "zero_face_parts": [],
+        "unknown_curve_uses": 0,
+        "unknown_surface_uses": 0,
+        "curve_types": {
+          "LINE": 14026,
+          "CIRCLE": 32258,
+          "B_SPLINE_CURVE_WITH_KNOTS": 1344
+        },
+        "surface_types": {
+          "CYLINDRICAL_SURFACE": 5372,
+          "CONICAL_SURFACE": 94,
+          "TOROIDAL_SURFACE": 4207,
+          "PLANE": 840,
+          "SPHERICAL_SURFACE": 88
+        },
+        "distance_matrix_symmetry_error": 0.0,
+        "distance_range": [
+          0.0,
+          1.0
+        ]
+      },
+      "duration_seconds": 0.12531730000000607
+    },
+    {
+      "name": "candidate_clustering",
+      "status": "completed",
+      "started_at": "2026-08-28T08:21:04.774261+00:00",
+      "metrics": {
+        "candidate_group_count": 18
+      },
+      "duration_seconds": 0.05487840000000688
+    },
+    {
+      "name": "precision_verification",
+      "status": "completed",
+      "started_at": "2026-08-28T08:21:04.831817+00:00",
+      "metrics": {
+        "mode": "boolean",
+        "candidate_group_count": 18,
+        "final_group_count": 21,
+        "lineage": {
+          "1": [
+            1
+          ],
+          "2": [
+            2
+          ],
+          "3": [
+            3
+          ],
+          "4": [
+            4
+          ],
+          "5": [
+            4
+          ],
+          "6": [
+            4
+          ],
+          "7": [
+            5
+          ],
+          "8": [
+            6
+          ],
+          "9": [
+            7
+          ],
+          "10": [
+            8
+          ],
+          "11": [
+            9
+          ],
+          "12": [
+            10
+          ],
+          "13": [
+            11
+          ],
+          "14": [
+            12
+          ],
+          "15": [
+            13
+          ],
+          "16": [
+            14
+          ],
+          "17": [
+            15
+          ],
+          "18": [
+            16
+          ],
+          "19": [
+            17
+          ],
+          "20": [
+            17
+          ],
+          "21": [
+            18
+          ]
+        },
+        "checked_pair_count": 71,
+        "passed_pair_count": 63,
+        "failed_or_split_pair_count": 8
+      },
+      "duration_seconds": 326.450618
+    },
+    {
+      "name": "result_materialization",
+      "status": "completed",
+      "started_at": "2026-08-28T08:26:31.288118+00:00",
+      "metrics": {
+        "export_count": 21,
+        "valid_export_count": 21
+      },
+      "duration_seconds": 20.02311420000001
+    }
+  ],
+  "quality_gates": [
+    {
+      "name": "nonempty_model",
+      "passed": true,
+      "evidence": {
+        "part_count": 84
+      }
+    },
+    {
+      "name": "geometry_supported",
+      "passed": true,
+      "evidence": {
+        "unknown_curves": 0,
+        "unknown_surfaces": 0
+      }
+    },
+    {
+      "name": "distance_matrix_valid",
+      "passed": true,
+      "evidence": {
+        "part_count": 84,
+        "nonpositive_volume_parts": [],
+        "zero_face_parts": [],
+        "unknown_curve_uses": 0,
+        "unknown_surface_uses": 0,
+        "curve_types": {
+          "LINE": 14026,
+          "CIRCLE": 32258,
+          "B_SPLINE_CURVE_WITH_KNOTS": 1344
+        },
+        "surface_types": {
+          "CYLINDRICAL_SURFACE": 5372,
+          "CONICAL_SURFACE": 94,
+          "TOROIDAL_SURFACE": 4207,
+          "PLANE": 840,
+          "SPHERICAL_SURFACE": 88
+        },
+        "distance_matrix_symmetry_error": 0.0,
+        "distance_range": [
+          0.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "name": "precision_partition_proven",
+      "passed": true,
+      "evidence": {
+        "mode": "boolean",
+        "group_count": 21,
+        "checked_pairs": 71
+      }
+    },
+    {
+      "name": "final_group_coverage",
+      "passed": true,
+      "evidence": {
+        "part_count": 84,
+        "group_count": 21
+      }
+    },
+    {
+      "name": "export_roundtrip",
+      "passed": true,
+      "evidence": {
+        "expected_solids": 84,
+        "actual_solids": 84,
+        "valid_files": 21
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "parts.csv",
+      "bytes": 18505,
+      "sha256": "bf7cd75e5091aa52936db955738cb1d1a152491642ace3c59cd893adca7e0934"
+    },
+    {
+      "path": "similarities.csv",
+      "bytes": 345146,
+      "sha256": "2915418dc9edc406f21e9d96f91916357d61b8d768999a54f9d150d48c19a799"
+    },
+    {
+      "path": "report.json",
+      "bytes": 779971,
+      "sha256": "680c3437316cd2d5246e08115b01c09ac1bbf4b145eb838e69a4bb67316d5bd8"
+    },
+    {
+      "path": "precision_report.json",
+      "bytes": 87409,
+      "sha256": "ef3645cd21807a6c8d8245b54d4f759b8ec3d84996bd1a3e2eff83842da4cbe4"
+    },
+    {
+      "path": "data_quality.json",
+      "bytes": 509,
+      "sha256": "e883fff8b681e7bb6fefc8892517cf8b509fe25b573a5f0798af0815d425c014"
+    },
+    {
+      "path": "method.json",
+      "bytes": 258,
+      "sha256": "7e82000407a5547fc1150229413bf5acb55ecd4e9a0e0e6f6d732f3501d2c73b"
+    },
+    {
+      "path": "grouped_steps\\group_001_1_solids.step",
+      "bytes": 996537,
+      "sha256": "f7d20754d1b4c4483b3fed24fee7daaa36d40e19c23c27e76fd486563b8df2f4"
+    },
+    {
+      "path": "grouped_steps\\group_002_18_solids.step",
+      "bytes": 334548,
+      "sha256": "2a93802c17eb65c03884802e816295a2ba666390a4b0577658c2fa5e01f6b144"
+    },
+    {
+      "path": "grouped_steps\\group_003_1_solids.step",
+      "bytes": 480026,
+      "sha256": "3719d438844124507dd57cf6970650ec404cfe863af7a8c33ef60181e80f188b"
+    },
+    {
+      "path": "grouped_steps\\group_004_32_solids.step",
+      "bytes": 22498257,
+      "sha256": "ef214658c749256bbbcf41a55b7cfd5d6116bdff98a2268fc4536500c947b5f7"
+    },
+    {
+      "path": "grouped_steps\\group_005_5_solids.step",
+      "bytes": 3401436,
+      "sha256": "5053366da5f275df20d65d83ba25069cb4865fb6f056eee6901d723769bb1a54"
+    },
+    {
+      "path": "grouped_steps\\group_006_1_solids.step",
+      "bytes": 665608,
+      "sha256": "2840d8dfac507163c81bdec95cfc23ebaaa16623dbbde72d2d0ce9bdcb60efd7"
+    },
+    {
+      "path": "grouped_steps\\group_007_1_solids.step",
+      "bytes": 3549075,
+      "sha256": "39e5f3f5baa6e0c45f98243fc5e5397b1bedf2add4353bcbd2185399408a5bf8"
+    },
+    {
+      "path": "grouped_steps\\group_008_1_solids.step",
+      "bytes": 410746,
+      "sha256": "91eff1d78c0645b3eec733c8b5ff1dfaeb26fc032ff990abd633e13af7fb6bed"
+    },
+    {
+      "path": "grouped_steps\\group_009_1_solids.step",
+      "bytes": 1915247,
+      "sha256": "3f2ad71dda63b3d3d0696fd58132a5d16c591009edf8e47e5a35fa7f7a957e3d"
+    },
+    {
+      "path": "grouped_steps\\group_010_1_solids.step",
+      "bytes": 189765,
+      "sha256": "37cfb51e76ac4b7700070ec916c6de48fb86bc3169b6f9294f86e026570d87ab"
+    },
+    {
+      "path": "grouped_steps\\group_011_1_solids.step",
+      "bytes": 2259157,
+      "sha256": "29dd843da4129fd8263b1666ad9d675fb1fe21a1f22516016ec7154ade32f816"
+    },
+    {
+      "path": "grouped_steps\\group_012_1_solids.step",
+      "bytes": 1370067,
+      "sha256": "ff4b15e54dee70af591bbca3ffd439d3186f2b6c7ababbd2ac77208385bdec09"
+    },
+    {
+      "path": "grouped_steps\\group_013_3_solids.step",
+      "bytes": 495073,
+      "sha256": "8805d0587dd364ff71c1f9952976dfdd3e32d65da244f6def4f0ca12217a82dd"
+    },
+    {
+      "path": "grouped_steps\\group_014_1_solids.step",
+      "bytes": 203082,
+      "sha256": "e037464c68313e1cc18854ae7cad82d1babd29fda30f70fcd82c55e47234c6e1"
+    },
+    {
+      "path": "grouped_steps\\group_015_3_solids.step",
+      "bytes": 86977,
+      "sha256": "130b129e56754fedaecfb651547e02fd0a5b59ef6140ea9b41634a35ebc50092"
+    },
+    {
+      "path": "grouped_steps\\group_016_1_solids.step",
+      "bytes": 693491,
+      "sha256": "b7363c9c8ecd824ae4a0cfff9f896ee309147dca07255d1919891d8148f04185"
+    },
+    {
+      "path": "grouped_steps\\group_017_1_solids.step",
+      "bytes": 18139,
+      "sha256": "f9d5557a721ab161ad020674be5a19ee5e8a7b92fb48b11e4cfff6ed23d3a1d3"
+    },
+    {
+      "path": "grouped_steps\\group_018_1_solids.step",
+      "bytes": 51516,
+      "sha256": "6f4ebe5a3f658e9cdfea646643ad938d73b0fd4601e700e5deb534766979b0eb"
+    },
+    {
+      "path": "grouped_steps\\group_019_1_solids.step",
+      "bytes": 67430,
+      "sha256": "a68afc75d1548ebc1f0ed683aa876141291a2bd1a158aeef26a2996f7fe492c0"
+    },
+    {
+      "path": "grouped_steps\\group_020_1_solids.step",
+      "bytes": 77574,
+      "sha256": "03db7c32f427794082dad282693ac67185c6b0c58dce3885cf7747a91bb92fdc"
+    },
+    {
+      "path": "grouped_steps\\group_021_8_solids.step",
+      "bytes": 81322,
+      "sha256": "95a9e217a206aecc2b40b00a0409d5669483e2b645c0dac41ee5c1a4c51a3e6a"
+    },
+    {
+      "path": "grouped_steps\\manifest.json",
+      "bytes": 10953,
+      "sha256": "a76b455c0930ccfe963b75bca6668e533cbfa3e39f9e2fb232497b330f42c734"
+    }
+  ],
+  "completed_at": "2026-08-28T08:26:51.579889+00:00",
+  "metrics": {
+    "part_count": 84,
+    "candidate_group_count": 18,
+    "final_group_count": 21,
+    "precision_checked_pairs": 71,
+    "export_count": 21
+  }
+}

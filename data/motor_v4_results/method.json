@@ -1,0 +1,8 @@
+{
+  "learned_parameters": false,
+  "random_projection": false,
+  "candidate_clustering": "deterministic agglomerative complete-link",
+  "precision_verification": "boolean",
+  "precision_vertex_tolerance": 1e-05,
+  "boolean_relative_tolerance": 1e-06
+}
