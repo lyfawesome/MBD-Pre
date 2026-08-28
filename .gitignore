@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+baseline_motor_output/
+motor_output/
+motor_v2_output/
+motor_v2_repeat/
+motor_v3_output/
+motor_v3_family_output/
+geometry_encoder_output/
+test_occt_export*.step
