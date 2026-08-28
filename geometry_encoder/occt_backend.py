@@ -7,6 +7,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -283,3 +284,82 @@ def validate_group_steps(
             "detail": detail[-500:],
         })
     return results
+
+
+def verify_rigid_pairs_with_boolean(
+    source: Path,
+    verifications: list,
+    part_volumes: dict[int, float],
+    drawexe: Path,
+    relative_tolerance: float = 1e-6,
+    workers: int = 4,
+) -> list:
+    """Independently verify aligned pairs using bidirectional OCCT Boolean cuts."""
+    aligned = [item for item in verifications if item.transform is not None]
+    if not aligned:
+        return verifications
+
+    def run_batch(batch: list) -> list[tuple[object, str]]:
+        lines = [
+            "pload ALL", "NewDocument PrecisionDoc", f"ReadStep PrecisionDoc {_tcl_path(source)}",
+            "XGetOneShape precision_model PrecisionDoc", "explode precision_model So",
+        ]
+        for job, item in enumerate(batch, 1):
+            transform = item.transform
+            axis = transform.axis
+            translation = transform.translation
+            lines.append(f"tcopy precision_model_{item.reference_part} aligned_{job}")
+            if abs(transform.angle_degrees) > 1e-10:
+                lines.append(
+                    f"trotate aligned_{job} 0 0 0 {axis[0]:.17g} {axis[1]:.17g} {axis[2]:.17g} "
+                    f"{transform.angle_degrees:.17g}"
+                )
+            lines.extend([
+                f"ttranslate aligned_{job} {translation[0]:.17g} {translation[1]:.17g} {translation[2]:.17g}",
+                f"bcut forward_{job} aligned_{job} precision_model_{item.candidate_part}",
+                f"bcut reverse_{job} precision_model_{item.candidate_part} aligned_{job}",
+                f"puts \"@@FORWARD_BEGIN {job}\"", f"puts [vprops forward_{job} 1.e-9 -full]",
+                f"puts \"@@FORWARD_END {job}\"",
+                f"puts \"@@REVERSE_BEGIN {job}\"", f"puts [vprops reverse_{job} 1.e-9 -full]",
+                f"puts \"@@REVERSE_END {job}\"",
+            ])
+        output = _run_draw(drawexe, "\n".join(lines), timeout=1800)
+        return [(item, output) for item in batch]
+
+    worker_count = max(1, min(int(workers), len(aligned)))
+    batches = [aligned[offset::worker_count] for offset in range(worker_count)]
+    with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="occt_boolean") as executor:
+        batch_results = list(executor.map(run_batch, batches))
+    output_by_identity: dict[int, tuple[str, int]] = {}
+    for batch, results in zip(batches, batch_results):
+        output = results[0][1] if results else ""
+        for local_job, item in enumerate(batch, 1):
+            output_by_identity[id(item)] = (output, local_job)
+
+    for item in aligned:
+        output, job = output_by_identity[id(item)]
+        forward_block = re.search(rf"@@FORWARD_BEGIN\s+{job}\s*(.*?)@@FORWARD_END\s+{job}", output, re.S)
+        reverse_block = re.search(rf"@@REVERSE_BEGIN\s+{job}\s*(.*?)@@REVERSE_END\s+{job}", output, re.S)
+        forward_mass = re.search(r"Mass\s*:\s*([-+0-9.eE]+)", forward_block.group(1)) if forward_block else None
+        reverse_mass = re.search(r"Mass\s*:\s*([-+0-9.eE]+)", reverse_block.group(1)) if reverse_block else None
+        if not forward_mass or not reverse_mass:
+            item.status = "boolean_failed"
+            item.reason = "OCCT Boolean difference did not produce measurable results"
+            item.passed = False
+            continue
+        item.forward_difference_volume = abs(float(forward_mass.group(1)))
+        item.reverse_difference_volume = abs(float(reverse_mass.group(1)))
+        reference_volume = max(
+            abs(part_volumes[item.reference_part]), abs(part_volumes[item.candidate_part]), 1e-15
+        )
+        item.boolean_relative_error = max(
+            item.forward_difference_volume, item.reverse_difference_volume
+        ) / reference_volume
+        item.passed = item.boolean_relative_error <= relative_tolerance
+        item.status = "verified" if item.passed else "different"
+        item.reason = (
+            "Rigid congruence and bidirectional Boolean difference passed"
+            if item.passed
+            else "Bidirectional Boolean difference exceeds tolerance"
+        )
+    return verifications

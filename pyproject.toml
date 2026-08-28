@@ -1,0 +1,13 @@
+[project]
+name = "step-geometry-workflow"
+version = "4.0.0"
+description = "Training-free STEP B-Rep grouping with independent exact verification"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+step-geometry-encoder = "step_geometry_encoder:main"
+
+[tool.unittest]
+start-directory = "."
+pattern = "test_*.py"
