@@ -10,3 +10,28 @@ motor_v4_output/
 geometry_encoder_output/
 acceptance_output/
 test_occt_export*.step
+
+# Downloaded external models and recoverable runtime products are intentionally local.
+data/assemblies/
+data/discovered/
+runs/
+
+# Machine-specific and regenerable research evidence.
+research/acquisition_log.csv
+research/raw_data_file_inventory.csv
+research/inspection_results.csv
+research/classification_runs.csv
+research/final_summary.json
+research/stability_report.json
+research/rigid_invariance_report.json
+research/coverage_report.json
+research/promotion_decision.json
+research/discovery/
+research/human_review/
+research/iterations/
+research/optimization/
+research/benchmark/
+
+# Local tooling configuration and generated caches.
+.Codex/
+.DS_Store

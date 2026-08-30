@@ -212,6 +212,11 @@ def _fingerprints(points: list[Point], tolerance: float) -> list[tuple[int, ...]
     ]
 
 
+def _fingerprint_compatible(left: tuple[int, ...], right: tuple[int, ...]) -> bool:
+    """Compare quantized distances without treating adjacent rounding bins as different."""
+    return len(left) == len(right) and all(abs(a - b) <= 1 for a, b in zip(left, right))
+
+
 def _match_points(
     transformed: list[Point], target: list[Point], tolerance: float,
 ) -> tuple[float, float, tuple[int, ...]] | None:
@@ -269,9 +274,12 @@ def find_rigid_transform(
     altitude = _norm(_cross(line, _sub(source[c], source[a]))) / line_length
     if altitude <= tolerance:
         return None
-    target_a = [index for index, value in enumerate(target_fingerprints) if value == source_fingerprints[a]]
-    target_b = [index for index, value in enumerate(target_fingerprints) if value == source_fingerprints[b]]
-    target_c = [index for index, value in enumerate(target_fingerprints) if value == source_fingerprints[c]]
+    target_a = [index for index, value in enumerate(target_fingerprints)
+                if _fingerprint_compatible(value, source_fingerprints[a])]
+    target_b = [index for index, value in enumerate(target_fingerprints)
+                if _fingerprint_compatible(value, source_fingerprints[b])]
+    target_c = [index for index, value in enumerate(target_fingerprints)
+                if _fingerprint_compatible(value, source_fingerprints[c])]
     source_distances = (math.dist(source[a], source[b]), math.dist(source[a], source[c]), math.dist(source[b], source[c]))
     attempts = 0
     for ta in target_a:

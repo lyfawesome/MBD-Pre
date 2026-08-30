@@ -4,12 +4,16 @@ import math
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 
 from geometry_encoder.config import WorkflowConfig
 from geometry_encoder.occt_backend import _run_draw, _tcl_path, find_drawexe
 from geometry_encoder.precision import _axis_angle, find_rigid_transform
 from geometry_encoder.telemetry import WorkflowRecorder
-from geometry_encoder.workflow import GeometryWorkflow
+from geometry_encoder.workflow import (
+    GeometryWorkflow, _precision_checkpoint, _restore_precision_result,
+    _write_precision_checkpoint,
+)
 
 
 class PrecisionUnitTest(unittest.TestCase):
@@ -61,15 +65,79 @@ class PrecisionUnitTest(unittest.TestCase):
         mirrored = [(-x + 5.0, y - 3.0, z + 1.0) for x, y, z in source]
         self.assertIsNone(find_rigid_transform(source, mirrored, 1e-8))
 
+    def test_rigid_fingerprint_tolerates_adjacent_quantization_bins(self):
+        source = [
+            (0.37286677651407407, 0.6244865760167085, 0.22795976272212315),
+            (0.2026252770582384, 0.3859661844073685, 0.1864784582738538),
+            (0.1125726393278852, 0.14255163554197614, 0.2283446307104201),
+            (0.9408962666789277, 0.5210990853341416, 0.03283467141067353),
+            (0.15335044968564993, 0.3925332051210709, 0.3830499535657014),
+            (0.39061823252398575, 0.961947452384876, 0.1684877845891668),
+            (0.45370827333883534, 0.7969009090293485, 0.3929753406948706),
+            (0.920628573983454, 0.6769454116932154, 0.26607099468967854),
+        ]
+        target = [
+            (3.860685706834955, -2.28613401492528, 2.227959762394246),
+            (3.8931793583360643, -2.5773698443703426, 2.186478458996319),
+            (3.9886416008186374, -2.8187141634836768, 2.228344630077618),
+            (4.352610714917745, -1.9838820327419835, 2.0328346717111767),
+            (3.8521096588238186, -2.6053772370999, 2.383049952610936),
+            (3.6486080266277336, -2.0230408475085344, 2.1684877851207487),
+            (3.805766475640744, -2.1037993558174226, 2.3929753402215805),
+            (4.233476008148363, -1.8813843307844362, 2.266070994860232),
+        ]
+        transform = find_rigid_transform(source, target, 1e-5)
+        self.assertIsNotNone(transform)
+        self.assertLess(transform.max_vertex_error, 2e-9)
+
     def test_configuration_rejects_invalid_precision_mode(self):
         config = WorkflowConfig(Path("x.step"), Path("out"), precision_mode="guess")
         with self.assertRaises(ValueError):
             config.validate()
         with self.assertRaises(ValueError):
             WorkflowConfig(Path("x.step"), Path("out"), precision_workers=0).validate()
+        with self.assertRaises(ValueError):
+            WorkflowConfig(
+                Path("x.step"), Path("out"), export_volume_relative_tolerance=0.0,
+            ).validate()
 
 
 class TelemetryTest(unittest.TestCase):
+    def test_precision_checkpoint_is_signature_scoped_and_restorable(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "precision_checkpoint.json"
+            signature = {"source_sha256": "abc", "threshold": 0.12}
+            pair = {"status": "verified", "reason": "passed", "vertex_count": 8,
+                    "forward_difference_volume": 0.0, "reverse_difference_volume": 0.0,
+                    "boolean_relative_error": 0.0, "passed": True}
+            _write_precision_checkpoint(path, signature, {"1:2": pair})
+            self.assertEqual(_precision_checkpoint(path, signature)["1:2"], pair)
+            self.assertEqual(_precision_checkpoint(path, {"source_sha256": "changed"}), {})
+            item = SimpleNamespace()
+            _restore_precision_result(item, pair)
+            self.assertEqual(item.status, "verified")
+            self.assertTrue(item.passed)
+
+    def test_legacy_checkpoint_migration_reuses_only_resolved_evidence(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "precision_checkpoint.json"
+            signature = {
+                "schema": 2, "source_sha256": "abc",
+                "algorithm_revision": "rigid-fingerprint-adjacent-bins-v2",
+            }
+            path.write_text(json.dumps({
+                "schema": 1,
+                "signature": {"schema": 1, "source_sha256": "abc"},
+                "pairs": {
+                    "1:2": {"status": "verified", "passed": True},
+                    "1:3": {"status": "different", "passed": False},
+                    "1:4": {"status": "alignment_failed", "passed": False},
+                    "1:5": {"status": "boolean_failed", "passed": False},
+                },
+            }), encoding="utf-8")
+            migrated = _precision_checkpoint(path, signature)
+            self.assertEqual(set(migrated), {"1:2", "1:3"})
+
     def test_manifest_records_stages_gates_and_artifacts(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder)
@@ -86,6 +154,16 @@ class TelemetryTest(unittest.TestCase):
             self.assertEqual(manifest["stages"][0]["status"], "completed")
             self.assertTrue(manifest["quality_gates"][0]["passed"])
             self.assertEqual(manifest["artifacts"][0]["sha256"], hashlib.sha256(b"verified").hexdigest())
+
+    def test_failed_gate_marks_manifest_failed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            recorder = WorkflowRecorder(output, {"mode": "test"}, "abc")
+            with self.assertRaises(RuntimeError):
+                recorder.gate("expected_failure", False, {"reason": "test"})
+            manifest = json.loads((output / "workflow_manifest.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["status"], "failed")
+            self.assertFalse(manifest["quality_gates"][0]["passed"])
 
 
 class OcctWorkflowIntegrationTest(unittest.TestCase):

@@ -1,13 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "step-geometry-workflow"
-version = "4.0.0"
+version = "4.1.0"
 description = "Training-free STEP B-Rep grouping with independent exact verification"
 requires-python = ">=3.11"
 dependencies = []
 
 [project.scripts]
 step-geometry-encoder = "step_geometry_encoder:main"
+mbd-iterate = "iteration_engine.cli:main"
+
+[project.optional-dependencies]
+review = ["numpy>=2.0", "matplotlib>=3.8"]
 
 [tool.unittest]
 start-directory = "."
 pattern = "test_*.py"
+
+[tool.setuptools]
+packages = ["geometry_encoder", "iteration_engine"]
+py-modules = ["step_geometry_encoder"]

@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import math
+import hashlib
+import heapq
+import struct
 from dataclasses import dataclass
 
 from .occt_backend import ExactProperties
@@ -160,25 +163,57 @@ def density_complete_link(
     keys = stable_keys or [f"{index:012d}" for index in range(count)]
     if len(keys) != count:
         raise ValueError("stable_keys length must match distance matrix")
-    groups: list[tuple[int, ...]] = [(index,) for index in range(count)]
-    while True:
-        candidates = []
-        for left_index, left in enumerate(groups):
-            for right_index in range(left_index):
-                right = groups[right_index]
-                complete_distance = max(matrix[a][b] for a in left for b in right)
-                if complete_distance <= threshold:
-                    merged_keys = tuple(sorted(keys[index] for index in left + right))
-                    candidates.append((complete_distance, merged_keys, right_index, left_index))
-        if not candidates:
-            break
-        _, _, first, second = min(candidates)
-        merged = tuple(sorted(groups[first] + groups[second]))
-        groups = [group for index, group in enumerate(groups) if index not in {first, second}]
-        groups.append(merged)
+    groups: dict[int, tuple[int, ...]] = {index: (index,) for index in range(count)}
+    neighbors: dict[int, dict[int, float]] = {index: {} for index in range(count)}
+    heap: list[tuple[float, tuple[int, ...], int, int]] = []
+    stable_tokens = [
+        (keys[index], hashlib.sha256(b"".join(
+            struct.pack("!d", value) for value in sorted(matrix[index])
+        )).digest())
+        for index in range(count)
+    ]
+    token_ranks = {token: rank for rank, token in enumerate(sorted(set(stable_tokens)))}
+
+    def merge_signature(left: tuple[int, ...], right: tuple[int, ...]) -> tuple[int, ...]:
+        return tuple(sorted(token_ranks[stable_tokens[index]] for index in left + right))
+
+    for left in range(count):
+        for right in range(left):
+            value = matrix[left][right]
+            if value <= threshold:
+                neighbors[left][right] = value
+                neighbors[right][left] = value
+                heapq.heappush(heap, (value, merge_signature((left,), (right,)), right, left))
+
+    next_group = count
+    while heap:
+        distance, _, left, right = heapq.heappop(heap)
+        if left not in groups or right not in groups:
+            continue
+        if neighbors[left].get(right) != distance:
+            continue
+        left_members, right_members = groups.pop(left), groups.pop(right)
+        left_neighbors, right_neighbors = neighbors.pop(left), neighbors.pop(right)
+        common = (left_neighbors.keys() & right_neighbors.keys()) - {left, right}
+        for other in (left_neighbors.keys() | right_neighbors.keys()) - {left, right}:
+            neighbors[other].pop(left, None)
+            neighbors[other].pop(right, None)
+        merged = tuple(sorted(left_members + right_members))
+        merged_id = next_group
+        next_group += 1
+        groups[merged_id] = merged
+        neighbors[merged_id] = {}
+        for other in common:
+            value = max(left_neighbors[other], right_neighbors[other])
+            neighbors[merged_id][other] = value
+            neighbors[other][merged_id] = value
+            first, second = sorted((merged_id, other))
+            heapq.heappush(
+                heap, (value, merge_signature(merged, groups[other]), first, second)
+            )
 
     assignments = [0] * count
-    ordered = sorted(groups, key=min)
+    ordered = sorted(groups.values(), key=min)
     for group_id, group in enumerate(ordered, 1):
         for index in group:
             assignments[index] = group_id

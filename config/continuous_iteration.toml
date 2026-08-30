@@ -1,0 +1,83 @@
+schema_version = 1
+
+[discovery]
+providers = ["zenodo", "github"]
+results_per_query = 10
+max_missing_types_per_cycle = 4
+maximum_file_bytes = 524288000
+query_deadline_seconds = 30
+allowed_licenses = [
+  "Apache-2.0", "MIT", "BSD-2-Clause", "BSD-3-Clause", "GPL-2.0",
+  "GPL-3.0", "LGPL-2.1", "LGPL-3.0", "AGPL-3.0", "CERN-OHL-P-2.0",
+  "CERN-OHL-S-2.0", "CERN-OHL-W-2.0", "CC-BY-4.0", "CC-BY-SA-4.0",
+]
+
+[cycle]
+precision_workers = 4
+maximum_new_sources = 5
+
+[quality_gates]
+minimum_order_ari = 1.0
+minimum_threshold_ari = 0.98
+minimum_completed_assemblies = 20
+minimum_merge_precision = 0.99
+minimum_merge_precision_lower_bound = 0.97
+minimum_random_cross_correct_split = 0.97
+minimum_random_cross_lower_bound = 0.93
+minimum_holdout_partition_ari = 1.0
+maximum_holdout_runtime_ratio = 1.10
+
+[optimization]
+thresholds = [0.06, 0.08, 0.10, 0.12, 0.14, 0.16]
+minimum_final_pair_recall = 1.0
+baseline_threshold = 0.12
+minimum_workload_reduction = 0.01
+holdout_ids = ["so100_follower", "hope_hand", "hope_humanoid_arm", "my_first_robot"]
+
+[coverage]
+minimum_sources_per_type = 5
+
+[coverage.types.fastener]
+keywords = ["screw", "bolt", "nut", "washer", "fastener", "螺钉", "螺母"]
+
+[coverage.types.bearing]
+keywords = ["bearing", "bushing", "轴承", "衬套"]
+
+[coverage.types.gear]
+keywords = ["gear", "pinion", "rack", "worm", "齿轮", "齿条"]
+
+[coverage.types.shaft]
+keywords = ["shaft", "axle", "spindle", "轴", "主轴"]
+
+[coverage.types.spring]
+keywords = ["spring", "弹簧"]
+
+[coverage.types.pulley_belt]
+keywords = ["pulley", "belt", "timing wheel", "带轮", "皮带"]
+
+[coverage.types.linkage]
+keywords = ["link", "arm", "joint", "hinge", "连杆", "关节", "铰链"]
+
+[coverage.types.bracket_frame]
+keywords = ["bracket", "frame", "plate", "mount", "支架", "框架", "安装板"]
+
+[coverage.types.enclosure]
+keywords = ["cover", "case", "housing", "enclosure", "外壳", "罩"]
+
+[coverage.types.motor_actuator]
+keywords = ["motor", "servo", "actuator", "stepper", "电机", "执行器", "舵机"]
+
+[coverage.types.wheel_roller]
+keywords = ["wheel", "roller", "caster", "轮", "滚轮"]
+
+[coverage.types.connector_electronics]
+keywords = ["connector", "pcb", "sensor", "switch", "连接器", "传感器"]
+
+[coverage.types.seal_gasket]
+keywords = ["seal", "gasket", "o-ring", "oring", "密封", "垫片"]
+
+[coverage.types.fluid_power]
+keywords = ["pump", "valve", "piston", "cylinder", "hydraulic", "pneumatic", "泵", "阀", "活塞", "液压"]
+
+[coverage.types.cutting_tool]
+keywords = ["cutter", "drill", "end mill", "tool holder", "刀具", "钻头", "铣刀"]

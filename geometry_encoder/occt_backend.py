@@ -7,7 +7,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -113,10 +113,11 @@ def inspect_and_normalize(
     cache_dir: Path,
     drawexe: Path,
 ) -> list[ExactProperties]:
-    """Import assembly exactly, inspect every solid, and write normalized per-solid STEP."""
+    """Import once and write per-solid STEP for review plus exact native B-Rep for computation."""
     cache_dir.mkdir(parents=True, exist_ok=True)
-    for stale in cache_dir.glob("part_*.step"):
-        stale.unlink()
+    for pattern in ("part_*.step", "part_*.brep"):
+        for stale in cache_dir.glob(pattern):
+            stale.unlink()
     source_tcl = _tcl_path(source)
     cache_tcl = _tcl_path(cache_dir)
     script = f"""
@@ -139,7 +140,7 @@ foreach shape $solidNames {{
   puts "@@LPROPS_BEGIN"
   puts [lprops $shape -full]
   puts "@@LPROPS_END"
-  bounding $shape -optimal -noTriangulation -save bx0 by0 bz0 bx1 by1 bz1
+  bounding $shape -noTriangulation -save bx0 by0 bz0 bx1 by1 bz1
   puts "@@BBOX [dval bx1-bx0] [dval by1-by0] [dval bz1-bz0]"
   puts "@@NBSHAPES_BEGIN"
   puts [nbshapes $shape]
@@ -150,13 +151,15 @@ newmodel
 set index 0
 foreach shape $solidNames {{
   incr index
-  set filename [format "%s/part_%04d.step" {cache_tcl} $index]
-  stepwrite 0 $shape $filename
-  puts "@@NORMALIZED $index $filename"
+  set stepname [format "%s/part_%04d.step" {cache_tcl} $index]
+  set brepname [format "%s/part_%04d.brep" {cache_tcl} $index]
+  bsave $shape $brepname
+  stepwrite 0 $shape $stepname
+  puts "@@NORMALIZED $index $stepname $brepname"
   newmodel
 }}
 """
-    output = _run_draw(drawexe, script)
+    output = _run_draw(drawexe, script, timeout=7200)
     count_match = re.search(r"@@SOLID_COUNT\s+(\d+)", output)
     if not count_match:
         raise RuntimeError("OCCT did not report the number of solids")
@@ -185,9 +188,11 @@ foreach shape $solidNames {{
             solids=_shape_count(block, "SOLID"),
         ))
     normalized = sorted(cache_dir.glob("part_*.step"))
-    if len(properties) != expected or len(normalized) != expected:
+    native_breps = sorted(cache_dir.glob("part_*.brep"))
+    if len(properties) != expected or len(normalized) != expected or len(native_breps) != expected:
         raise RuntimeError(
-            f"OCCT expected {expected} solids, parsed {len(properties)} properties and wrote {len(normalized)} files.\n"
+            f"OCCT expected {expected} solids, parsed {len(properties)} properties, "
+            f"wrote {len(normalized)} STEP and {len(native_breps)} B-Rep files.\n"
             f"OCCT output tail:\n{output[-5000:]}"
         )
     return properties
@@ -238,6 +243,7 @@ def export_groups(
 def validate_group_steps(
     files: list[Path], expected_counts: list[int], drawexe: Path,
     expected_volumes: list[float] | None = None,
+    volume_relative_tolerance: float = 1e-6,
 ) -> list[dict]:
     """Re-import every generated STEP file and run OCCT BRepCheck."""
     if len(files) != len(expected_counts):
@@ -273,7 +279,7 @@ def validate_group_steps(
         actual_volume = float(volume_match.group(1)) if volume_match else float("nan")
         expected_volume = expected_volumes[index - 1] if expected_volumes is not None else actual_volume
         volume_relative_error = abs(actual_volume - expected_volume) / max(abs(expected_volume), 1e-15)
-        volume_valid = volume_relative_error <= 1e-6
+        volume_valid = volume_relative_error <= volume_relative_tolerance
         shape_valid = "valid" in detail.lower() and "faulty" not in detail.lower() and "invalid" not in detail.lower()
         valid = shape_valid and actual_count == expected_counts[index - 1] and volume_valid
         results.append({
@@ -281,6 +287,7 @@ def validate_group_steps(
             "expected_solid_count": expected_counts[index - 1], "actual_solid_count": actual_count,
             "expected_volume": expected_volume, "actual_volume": actual_volume,
             "volume_relative_error": volume_relative_error, "volume_valid": volume_valid,
+            "volume_relative_tolerance": volume_relative_tolerance,
             "detail": detail[-500:],
         })
     return results
@@ -293,22 +300,39 @@ def verify_rigid_pairs_with_boolean(
     drawexe: Path,
     relative_tolerance: float = 1e-6,
     workers: int = 4,
+    normalized_dir: Path | None = None,
+    result_callback=None,
 ) -> list:
     """Independently verify aligned pairs using bidirectional OCCT Boolean cuts."""
     aligned = [item for item in verifications if item.transform is not None]
     if not aligned:
         return verifications
 
-    def run_batch(batch: list) -> list[tuple[object, str]]:
-        lines = [
-            "pload ALL", "NewDocument PrecisionDoc", f"ReadStep PrecisionDoc {_tcl_path(source)}",
-            "XGetOneShape precision_model PrecisionDoc", "explode precision_model So",
-        ]
+    def run_batch(batch: list) -> str:
+        if normalized_dir is None:
+            lines = [
+                "pload ALL", "NewDocument PrecisionDoc", f"ReadStep PrecisionDoc {_tcl_path(source)}",
+                "XGetOneShape precision_model PrecisionDoc", "explode precision_model So",
+            ]
+        else:
+            lines = ["pload ALL"]
         for job, item in enumerate(batch, 1):
             transform = item.transform
             axis = transform.axis
             translation = transform.translation
-            lines.append(f"tcopy precision_model_{item.reference_part} aligned_{job}")
+            if normalized_dir is None:
+                lines.extend([
+                    f"tcopy precision_model_{item.reference_part} aligned_{job}",
+                    f"tcopy precision_model_{item.candidate_part} candidate_{job}",
+                ])
+            else:
+                reference = normalized_dir / f"part_{item.reference_part:04d}.brep"
+                candidate = normalized_dir / f"part_{item.candidate_part:04d}.brep"
+                lines.extend([
+                    f"restore {_tcl_path(reference)} reference_{job}",
+                    f"restore {_tcl_path(candidate)} candidate_{job}",
+                    f"tcopy reference_{job} aligned_{job}",
+                ])
             if abs(transform.angle_degrees) > 1e-10:
                 lines.append(
                     f"trotate aligned_{job} 0 0 0 {axis[0]:.17g} {axis[1]:.17g} {axis[2]:.17g} "
@@ -316,50 +340,74 @@ def verify_rigid_pairs_with_boolean(
                 )
             lines.extend([
                 f"ttranslate aligned_{job} {translation[0]:.17g} {translation[1]:.17g} {translation[2]:.17g}",
-                f"bcut forward_{job} aligned_{job} precision_model_{item.candidate_part}",
-                f"bcut reverse_{job} precision_model_{item.candidate_part} aligned_{job}",
+                f"bcut forward_{job} aligned_{job} candidate_{job}",
+                f"bcut reverse_{job} candidate_{job} aligned_{job}",
                 f"puts \"@@FORWARD_BEGIN {job}\"", f"puts [vprops forward_{job} 1.e-9 -full]",
                 f"puts \"@@FORWARD_END {job}\"",
                 f"puts \"@@REVERSE_BEGIN {job}\"", f"puts [vprops reverse_{job} 1.e-9 -full]",
                 f"puts \"@@REVERSE_END {job}\"",
             ])
-        output = _run_draw(drawexe, "\n".join(lines), timeout=1800)
-        return [(item, output) for item in batch]
+        timeout = (120 + 20 * (len(batch) - 1)) if normalized_dir is not None else 1800
+        output = _run_draw(drawexe, "\n".join(lines), timeout=timeout)
+        return output
 
     worker_count = max(1, min(int(workers), len(aligned)))
-    batches = [aligned[offset::worker_count] for offset in range(worker_count)]
-    with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="occt_boolean") as executor:
-        batch_results = list(executor.map(run_batch, batches))
-    output_by_identity: dict[int, tuple[str, int]] = {}
-    for batch, results in zip(batches, batch_results):
-        output = results[0][1] if results else ""
-        for local_job, item in enumerate(batch, 1):
-            output_by_identity[id(item)] = (output, local_job)
+    if normalized_dir is None:
+        batches = [aligned[offset::worker_count] for offset in range(worker_count)]
+    else:
+        # Amortize the expensive assembly import, then recursively isolate a batch
+        # if a pathological B-Rep fails or times out. Only the failing singleton is
+        # conservatively rejected; successful siblings retain their exact evidence.
+        batch_size = 4
+        batches = [aligned[offset:offset + batch_size] for offset in range(0, len(aligned), batch_size)]
 
-    for item in aligned:
-        output, job = output_by_identity[id(item)]
-        forward_block = re.search(rf"@@FORWARD_BEGIN\s+{job}\s*(.*?)@@FORWARD_END\s+{job}", output, re.S)
-        reverse_block = re.search(rf"@@REVERSE_BEGIN\s+{job}\s*(.*?)@@REVERSE_END\s+{job}", output, re.S)
-        forward_mass = re.search(r"Mass\s*:\s*([-+0-9.eE]+)", forward_block.group(1)) if forward_block else None
-        reverse_mass = re.search(r"Mass\s*:\s*([-+0-9.eE]+)", reverse_block.group(1)) if reverse_block else None
-        if not forward_mass or not reverse_mass:
-            item.status = "boolean_failed"
-            item.reason = "OCCT Boolean difference did not produce measurable results"
-            item.passed = False
-            continue
-        item.forward_difference_volume = abs(float(forward_mass.group(1)))
-        item.reverse_difference_volume = abs(float(reverse_mass.group(1)))
-        reference_volume = max(
-            abs(part_volumes[item.reference_part]), abs(part_volumes[item.candidate_part]), 1e-15
-        )
-        item.boolean_relative_error = max(
-            item.forward_difference_volume, item.reverse_difference_volume
-        ) / reference_volume
-        item.passed = item.boolean_relative_error <= relative_tolerance
-        item.status = "verified" if item.passed else "different"
-        item.reason = (
-            "Rigid congruence and bidirectional Boolean difference passed"
-            if item.passed
-            else "Bidirectional Boolean difference exceeds tolerance"
-        )
+    def run_resilient(batch: list) -> list[tuple[list, str | None, str | None]]:
+        try:
+            return [(batch, run_batch(batch), None)]
+        except Exception as exc:
+            if len(batch) == 1:
+                return [(batch, None, f"{type(exc).__name__}: {exc}"[-1000:])]
+            middle = len(batch) // 2
+            return run_resilient(batch[:middle]) + run_resilient(batch[middle:])
+
+    def apply_batch_result(batch: list, output: str | None, error: str | None) -> None:
+        if error is not None or output is None:
+            for item in batch:
+                item.status = "boolean_failed"
+                item.reason = f"Isolated OCCT Boolean batch failed: {error}"
+                item.passed = False
+        else:
+            for job, item in enumerate(batch, 1):
+                forward_block = re.search(rf"@@FORWARD_BEGIN\s+{job}\s*(.*?)@@FORWARD_END\s+{job}", output, re.S)
+                reverse_block = re.search(rf"@@REVERSE_BEGIN\s+{job}\s*(.*?)@@REVERSE_END\s+{job}", output, re.S)
+                forward_mass = re.search(r"Mass\s*:\s*([-+0-9.eE]+)", forward_block.group(1)) if forward_block else None
+                reverse_mass = re.search(r"Mass\s*:\s*([-+0-9.eE]+)", reverse_block.group(1)) if reverse_block else None
+                if not forward_mass or not reverse_mass:
+                    item.status = "boolean_failed"
+                    item.reason = "OCCT Boolean difference did not produce measurable results"
+                    item.passed = False
+                    continue
+                item.forward_difference_volume = abs(float(forward_mass.group(1)))
+                item.reverse_difference_volume = abs(float(reverse_mass.group(1)))
+                reference_volume = max(
+                    abs(part_volumes[item.reference_part]), abs(part_volumes[item.candidate_part]), 1e-15
+                )
+                item.boolean_relative_error = max(
+                    item.forward_difference_volume, item.reverse_difference_volume
+                ) / reference_volume
+                item.passed = item.boolean_relative_error <= relative_tolerance
+                item.status = "verified" if item.passed else "different"
+                item.reason = (
+                    "Rigid congruence and bidirectional Boolean difference passed"
+                    if item.passed
+                    else "Bidirectional Boolean difference exceeds tolerance"
+                )
+        if result_callback is not None:
+            result_callback(batch)
+
+    with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="occt_boolean") as executor:
+        futures = [executor.submit(run_resilient, batch) for batch in batches]
+        for future in as_completed(futures):
+            for batch, output, error in future.result():
+                apply_batch_result(batch, output, error)
     return verifications

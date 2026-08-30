@@ -29,6 +29,10 @@ def main(argv: Iterable[str] | None = None) -> int:
     )
     parser.add_argument("--vertex-tolerance", type=float, default=1e-5)
     parser.add_argument("--boolean-relative-tolerance", type=float, default=1e-6)
+    parser.add_argument(
+        "--export-volume-relative-tolerance", type=float, default=1e-6,
+        help="Maximum relative volume drift after grouped STEP export and re-import",
+    )
     parser.add_argument("--precision-workers", type=int, default=4)
     args = parser.parse_args(argv)
     config = WorkflowConfig(
@@ -39,6 +43,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         allow_unknown_geometry=args.allow_unknown_geometry,
         precision_mode=args.precision_mode, vertex_tolerance=args.vertex_tolerance,
         boolean_relative_tolerance=args.boolean_relative_tolerance,
+        export_volume_relative_tolerance=args.export_volume_relative_tolerance,
         precision_workers=args.precision_workers,
     )
     report = GeometryWorkflow(config).run()

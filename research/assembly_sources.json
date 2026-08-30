@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "selection_policy": "Openly downloadable STEP assembly files, preferably full mechanisms with repeated hardware or repeated structural parts. Unknown-license items are recorded but not admitted to the core evaluation set.",
+  "sources": [
+    {"id":"so100_follower","title":"SO-100 Follower Arm","owner":"TheRobotStudio","repo":"SO-ARM100","ref":"main","path":"STEP/SO100/Follower_Specific/SO_5DOF_ARM100_Assembly.step","license":"Apache-2.0","expected_bytes":7038498,"tier":"core"},
+    {"id":"so100_leader","title":"SO-100 Leader Arm","owner":"TheRobotStudio","repo":"SO-ARM100","ref":"main","path":"STEP/SO100/Leader_Specific/SO_5DOF_ARM100_Assembly.step","license":"Apache-2.0","expected_bytes":6255382,"tier":"core"},
+    {"id":"so101","title":"SO-101 Robot Arm","owner":"TheRobotStudio","repo":"SO-ARM100","ref":"main","path":"STEP/SO101/SO101 Assembly.step","license":"Apache-2.0","expected_bytes":20496014,"tier":"core"},
+    {"id":"rebot_dm_20260425","title":"reBot B601 DM revision 2026-04-25","owner":"Seeed-Projects","repo":"reBot-DevArm","ref":"main","path":"hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260425.step","license":"CERN-OHL-W-2.0","expected_bytes":34822707,"tier":"core"},
+    {"id":"rebot_dm_20260625","title":"reBot B601 DM revision 2026-06-25","owner":"Seeed-Projects","repo":"reBot-DevArm","ref":"main","path":"hardware/reBot_B601_DM/reBot_B601_DM_v1.1_20260625.step","license":"CERN-OHL-W-2.0","expected_bytes":37678786,"tier":"core"},
+    {"id":"rebot_rs","title":"reBot B601 RS","owner":"Seeed-Projects","repo":"reBot-DevArm","ref":"main","path":"hardware/reBot_B601_RS/reBot_B601_RS_v1.0_20260625.step","license":"CERN-OHL-W-2.0","expected_bytes":37921121,"tier":"core"},
+    {"id":"voron_tap","title":"Voron Tap R8","owner":"VoronDesign","repo":"Voron-Tap","ref":"main","path":"CAD/VORON_Tap_R8.step","license":"GPL-3.0","expected_bytes":9904620,"tier":"core"},
+    {"id":"voron_stealthburner","title":"Voron Stealthburner CW2","owner":"VoronDesign","repo":"Voron-Stealthburner","ref":"main","path":"CAD/Stealthburner_CW2_Assembly.step","license":"GPL-3.0","expected_bytes":26745618,"tier":"core"},
+    {"id":"voron_afterburner","title":"Voron Afterburner","owner":"VoronDesign","repo":"Voron-Afterburner","ref":"afterburner","path":"CAD/Afterburner_Assembly.step","license":"GPL-3.0","expected_bytes":73954712,"tier":"core"},
+    {"id":"hope_arm","title":"HOPE Jr arm","owner":"TheRobotStudio","repo":"HOPEJr","ref":"main","path":"Arm/STEP/arm.step","license":"Apache-2.0","expected_bytes":7772108,"tier":"core"},
+    {"id":"hope_exoskeleton","title":"HOPE Jr arm exoskeleton","owner":"TheRobotStudio","repo":"HOPEJr","ref":"main","path":"Arm/STEP/exoskeleton.step","license":"Apache-2.0","expected_bytes":12960178,"tier":"core"},
+    {"id":"hope_glove","title":"HOPE Jr glove","owner":"TheRobotStudio","repo":"HOPEJr","ref":"main","path":"Arm/STEP/glove.step","license":"Apache-2.0","expected_bytes":14896811,"tier":"core"},
+    {"id":"hope_hand","title":"HOPE Jr hand","owner":"TheRobotStudio","repo":"HOPEJr","ref":"main","path":"Arm/STEP/hand.step","license":"Apache-2.0","expected_bytes":12410880,"tier":"core"},
+    {"id":"hope_humanoid_arm","title":"HOPE Jr 7-DOF humanoid arm","owner":"TheRobotStudio","repo":"HOPEJr","ref":"main","path":"Humanoid/STEP/SO_7DOF_ARM100_08h_HL_03n.STEP","license":"Apache-2.0","expected_bytes":28586307,"tier":"core"},
+    {"id":"olsk_cnc","title":"Open Lab Starter Kit small CNC","owner":"Open-Lab-Starter-Kit","repo":"OLSK-Small-CNC","ref":"main","path":"OLSK_Small_CNC_V1/cad/OLSK-Small-CNC.step","license":"CERN-OHL-W-2.0","expected_bytes":41592334,"tier":"core"},
+    {"id":"positron","title":"Positron V3 LT printer","owner":"Audiotronix","repo":"Positron_LT","ref":"main","path":"CAD/positron_v3_lt_V0.25.52.stp","license":"GPL-3.0","expected_bytes":72253379,"tier":"core"},
+    {"id":"voron_legacy","title":"Voron Legacy printer","owner":"VoronDesign","repo":"Voron-Legacy","ref":"main","path":"CAD/VORON_Legacy_Assembly.step","license":"GPL-3.0","expected_bytes":68872454,"tier":"core"},
+    {"id":"renew3d","title":"Renew3D printer","owner":"kndndrj","repo":"renew3d","ref":"master","path":"cad/assembly.step","license":"GPL-3.0","expected_bytes":42718806,"tier":"core"},
+    {"id":"lambda_cnc","title":"Lambda CNC Router V2","owner":"I-M-Robotics-Lab","repo":"Lambda_CNC_Router_V2","ref":"main","path":"Assembly.step","license":"CC-BY-NC-SA-4.0","expected_bytes":15523142,"tier":"core"},
+    {"id":"my_first_robot","title":"My First Robot drivetrain","owner":"TaniWanKenobi","repo":"MyFirstRobotCAD","ref":"main","path":"Drivetrain Assembly.step","license":"AGPL-3.0","expected_bytes":15924420,"tier":"core"},
+    {"id":"m3_crete","title":"M3-CRETE desktop robot","owner":"sunnyday-technologies","repo":"M3-CRETE","ref":"main","path":"CAD/M3-2_Assembly.step","license":"CERN-OHL-W-2.0","expected_bytes":23414351,"expected_sha256":"6b3a670fafc76498e81d8c3ccc9d2951ae5923125623ff91ec0e11f1a8ceabc8","transport":"github_media","tier":"core"},
+    {"id":"scalenode_rpi4","title":"ScaleNode Raspberry Pi 4 enclosure","owner":"antmicro","repo":"scalenode-rpi4-enclosure","ref":"master","path":"rpi-cluster-enclosure-assembly.step","license":"Apache-2.0","expected_bytes":4213625,"tier":"core"},
+    {"id":"knode_robot","title":"KNODE Cosserat robot","owner":"hsiehScalAR","repo":"KNODE-Cosserat","ref":"main","path":"CAD/full_robot_assem.STEP","license":"GPL-3.0","expected_bytes":12284459,"tier":"core"},
+    {"id":"ronin_dorsal","title":"Ronin Hand dorsal assembly","owner":"Polymorph-Intelligence","repo":"RoninHand","ref":"main","path":"STEP/Dorsal_Assembly.step","license":"CC-BY-4.0","expected_bytes":24911455,"tier":"core"},
+    {"id":"ronin_palmar","title":"Ronin Hand palmar assembly","owner":"Polymorph-Intelligence","repo":"RoninHand","ref":"main","path":"STEP/Palmar_Assembly.step","license":"CC-BY-4.0","expected_bytes":8865791,"tier":"core"},
+    {"id":"hros1_orion","title":"HR-OS1 Orion humanoid","owner":"Interbotix","repo":"HROS1-3D-Models","ref":"master","path":"Assembly_STEP/HR-OS1-Orion-v1.stp","license":"CC-BY-SA-4.0","expected_bytes":26595032,"tier":"core"},
+    {"id":"mrf2","title":"MRF2 mobile robot","owner":"acornelissen","repo":"IDENTIDEM.design-MRF2","ref":"main","path":"STEP & F3D/MRF2-complete.step","license":"GPL-3.0","expected_bytes":12711680,"tier":"core"},
+    {"id":"neoracer","title":"NeoRacer full vehicle","owner":"Neobotics-Foundation-Inc","repo":"neoracer-hardware-files","ref":"main","path":"full-vehicle/neoracer-full-vehicle.step","license":"CERN-OHL-S-2.0","expected_bytes":100519607,"expected_sha256":"73d18cf9104c93177495f09f1aa4569c887c089ce0c9d0ddf4a97d1f26fc7c73","transport":"github_media","tier":"core"},
+    {"id":"dropbear","title":"Dropbear quadruped robot","owner":"Hyperspawn","repo":"dropbear_hardware","ref":"main","path":"Assembly/Dropbear.step","license":"MIT","expected_bytes":167373895,"expected_sha256":"0674019b0c0828dc7c7c899c1bb18e39a02f4d5c3e275c787e7836a9b2737c44","transport":"github_media","tier":"core"},
+    {"id":"xt1","title":"XT-1 robot full assembly","owner":"redbigz","repo":"xt-1","ref":"main","path":"STEP/XT-1.step","license":"UNKNOWN","expected_bytes":73092945,"expected_sha256":"4be329e2c14fd1ddf00b1c0f25599c8994f62a97cfaedb2764de00057f3170df","transport":"github_media","tier":"quarantine","admission_note":"No repository license located; keep out of the evaluation corpus until permission is clarified."}
+  ],
+  "large_corpus_leads": [
+    {"title":"AutoMate","url":"https://zenodo.org/records/7776208","format":"STEP and Parasolid parts plus assembly graphs","status":"qualified_not_bulk_downloaded","reason":"The monolithic STEP archive is 13.2 GB; retained as an expansion source after the 29-file core is validated."},
+    {"title":"Quidities open-source assembly gallery","url":"https://demo.quidities.com/","format":"Interactive GLTF derived from upstream STEP assemblies","status":"discovery_only","reason":"Used to discover and cross-check assembly sizes; original STEP files are downloaded from upstream repositories."}
+  ]
+}

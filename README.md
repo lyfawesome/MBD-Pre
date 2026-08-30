@@ -49,6 +49,19 @@ python .\step_geometry_encoder.py "C:\Users\LENOVO\Desktop\motor.STEP" --output 
 
 详细设计、失败策略和扩展点见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
+## 持续数据与算法迭代
+
+`iteration_engine` 把一次性脚本组织成两个有门禁的闭环：一条根据 STEP 产品名称和几何覆盖签名寻找覆盖不足的实体类型，再从 GitHub/Zenodo 定向发现许可明确的装配；另一条在固定 Boolean-final 基准上比较候选阈值的精确组召回和计算工作量，并通过稳定性与人工置信区间决定是否允许晋级。
+
+```bash
+python3 -m iteration_engine.cli plan
+python3 -m iteration_engine.cli cycle --offline
+python3 -m iteration_engine.cli discover
+python3 -m iteration_engine.cli cycle --acquire --classify
+```
+
+联网发现、下载和长时间分类必须显式启动。未知许可模型不会自动录用，缺少人工标签时算法候选不会自动晋级。架构、自动化成熟度与跨电脑接管步骤见 [docs/AUTOMATION_ARCHITECTURE.md](docs/AUTOMATION_ARCHITECTURE.md)。
+
 ## 可审计输出
 
 - `workflow_manifest.json`：运行 ID、源文件哈希、Git 版本、配置、阶段耗时、质量门禁和产物哈希。
@@ -74,6 +87,12 @@ python -m unittest -v
 - 一个 38 件的候选组被精确分成 32、5、1 件三类；零件 75/76 因无法由正旋转+平移建立全拓扑对应而分开。
 - 21 个分组 STEP 全部回读合法，实际 Solid 合计 84，最大体积相对误差为 `3.66×10⁻⁸`。
 - 6 个质量门禁全部通过；并行布尔精确阶段耗时约 326 秒。
+
+## 外部装配语料与人工复核
+
+仓库现在包含一套可复现的外部装配评估工作区：29 个许可明确的 STEP 总成来源、断点续传与哈希校验、OCCT 结构准入、批量布尔终审、阈值/输入顺序稳定性分析，以及无需逐个打开 STEP 的风险分层联系表。入口见 [research/README.md](research/README.md)，完整评估协议见 [docs/EVALUATION_PROTOCOL.md](docs/EVALUATION_PROTOCOL.md)。
+
+最终结果必须使用 `--precision-mode boolean`。`rigid` 只用于快速筛查；真实 SO-100 对照表明，刚体模式可能把视觉和顶点均接近、但 B-Rep 实际不同的零件错误合并。
 
 ## 边界
 

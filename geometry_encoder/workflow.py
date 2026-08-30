@@ -19,13 +19,16 @@ from .step_graph import describe_normalized_step
 from .telemetry import WorkflowRecorder, file_sha256
 
 
-CACHE_SCHEMA = 4
+CACHE_SCHEMA = 5
+PRECISION_CHECKPOINT_SCHEMA = 2
+PRECISION_ALGORITHM_REVISION = "rigid-fingerprint-adjacent-bins-v2"
 
 
 def _normalized_metadata(cache_dir: Path) -> list[dict]:
     return [
         {"file": path.name, "bytes": path.stat().st_size, "sha256": file_sha256(path)}
-        for path in sorted(cache_dir.glob("part_*.step"))
+        for pattern in ("part_*.step", "part_*.brep")
+        for path in sorted(cache_dir.glob(pattern))
     ]
 
 
@@ -42,7 +45,7 @@ def _load_or_extract(
             and cached.get("source_sha256") == source_hash
             and cached.get("backend") == backend
             and cached.get("normalized_parts") == metadata
-            and len(metadata) == len(cached.get("properties", []))
+            and len(metadata) == 2 * len(cached.get("properties", []))
         ):
             properties = []
             for raw in cached["properties"]:
@@ -121,6 +124,43 @@ def _group_summaries(groups: dict[int, list[int]], pairs: list[dict]) -> list[di
             "mean_internal_similarity": sum(values) / len(values) if values else 1.0,
         })
     return summaries
+
+
+def _precision_checkpoint(path: Path, signature: dict) -> dict[str, dict]:
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if data.get("signature") == signature:
+        return data.get("pairs", {})
+    legacy_signature = dict(signature)
+    legacy_signature.pop("algorithm_revision", None)
+    legacy_signature["schema"] = 1
+    if data.get("schema") == 1 and data.get("signature") == legacy_signature:
+        # Completed Boolean evidence remains valid across the stricter fingerprint
+        # prefilter fix. Re-evaluate only unresolved or transient failures.
+        return {
+            key: value for key, value in data.get("pairs", {}).items()
+            if value.get("status") in {"verified", "different", "rigid_verified"}
+        }
+    return {}
+
+
+def _write_precision_checkpoint(path: Path, signature: dict, pairs: dict[str, dict]) -> None:
+    temporary = path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps({
+        "schema": PRECISION_CHECKPOINT_SCHEMA, "signature": signature, "pairs": pairs,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary.replace(path)
+
+
+def _restore_precision_result(item, cached: dict) -> None:
+    for field in ("status", "reason", "vertex_count", "forward_difference_volume",
+                  "reverse_difference_volume", "boolean_relative_error", "passed"):
+        if field in cached:
+            setattr(item, field, cached[field])
 
 
 def _write_csv(output: Path, parts: list[PartFeatures], assignments: list[int], pairs: list[dict]) -> None:
@@ -235,6 +275,18 @@ class GeometryWorkflow:
 
         with recorder.stage("precision_verification") as stage:
             verifications = []
+            checkpoint_path = output / "precision_checkpoint.json"
+            checkpoint_signature = {
+                "schema": PRECISION_CHECKPOINT_SCHEMA, "source_sha256": source_hash,
+                "algorithm_revision": PRECISION_ALGORITHM_REVISION,
+                "precision_mode": config.precision_mode, "threshold": config.threshold,
+                "vertex_tolerance": config.vertex_tolerance,
+                "boolean_relative_tolerance": config.boolean_relative_tolerance,
+                "drawexe": {"path": str(drawexe), "bytes": drawexe.stat().st_size,
+                            "mtime_ns": drawexe.stat().st_mtime_ns},
+            }
+            checkpoint_pairs = _precision_checkpoint(checkpoint_path, checkpoint_signature)
+            reused_precision_pairs = 0
             lineage = {group: [group] for group in candidate_groups}
             final_groups = candidate_groups
             if config.precision_mode != "off":
@@ -250,21 +302,57 @@ class GeometryWorkflow:
                         round_checks = build_pair_verifications(
                             {original_group: remaining}, cache_dir, config.vertex_tolerance
                         )
+                        pending_checks = []
+                        for item in round_checks:
+                            key = f"{item.reference_part}:{item.candidate_part}"
+                            cached = checkpoint_pairs.get(key)
+                            if cached is None:
+                                pending_checks.append(item)
+                            else:
+                                _restore_precision_result(item, cached)
+                                reused_precision_pairs += 1
                         if config.precision_mode == "boolean":
+                            def checkpoint_completed(completed_items):
+                                for completed_item in completed_items:
+                                    checkpoint_pairs[
+                                        f"{completed_item.reference_part}:{completed_item.candidate_part}"
+                                    ] = completed_item.to_dict()
+                                _write_precision_checkpoint(
+                                    checkpoint_path, checkpoint_signature, checkpoint_pairs
+                                )
                             verify_rigid_pairs_with_boolean(
-                                source, round_checks, volumes, drawexe,
+                                source, pending_checks, volumes, drawexe,
                                 config.boolean_relative_tolerance, config.precision_workers,
+                                cache_dir, checkpoint_completed,
                             )
                         else:
-                            for item in round_checks:
+                            for item in pending_checks:
                                 if item.transform is not None:
                                     item.passed = True
                                     item.status = "rigid_verified"
                                     item.reason = "Topology-aware rigid congruence passed"
+                        for item in pending_checks:
+                            checkpoint_pairs[f"{item.reference_part}:{item.candidate_part}"] = item.to_dict()
+                        if pending_checks:
+                            _write_precision_checkpoint(
+                                checkpoint_path, checkpoint_signature, checkpoint_pairs
+                            )
                         verifications.extend(round_checks)
                         passed = {item.candidate_part for item in round_checks if item.passed}
                         partitions.append((original_group, [reference] + [part for part in remaining[1:] if part in passed]))
-                        remaining = [part for part in remaining[1:] if part not in passed]
+                        failed_closed = {
+                            item.candidate_part for item in round_checks
+                            if item.status == "boolean_failed"
+                        }
+                        # A timed-out/failed Boolean relation is not evidence that two
+                        # candidates differ. Keep it conservative and auditable by making
+                        # that candidate a singleton instead of triggering a quadratic
+                        # cascade of further expensive comparisons.
+                        partitions.extend((original_group, [part]) for part in remaining[1:] if part in failed_closed)
+                        remaining = [
+                            part for part in remaining[1:]
+                            if part not in passed and part not in failed_closed
+                        ]
                 final_groups = {
                     group_id: sorted(group_parts)
                     for group_id, (_, group_parts) in enumerate(partitions, 1)
@@ -281,6 +369,13 @@ class GeometryWorkflow:
                 "lineage": lineage,
                 "checked_pair_count": len(verifications),
                 "passed_pair_count": sum(item.passed for item in verifications),
+                "verified_different_pair_count": sum(item.status == "different" for item in verifications),
+                "alignment_failed_pair_count": sum(item.status == "alignment_failed" for item in verifications),
+                "boolean_failed_pair_count": sum(item.status == "boolean_failed" for item in verifications),
+                "unresolved_pair_count": sum(
+                    item.status in {"alignment_failed", "boolean_failed"} for item in verifications
+                ),
+                "checkpoint_reused_pair_count": reused_precision_pairs,
                 "failed_or_split_pair_count": sum(not item.passed for item in verifications),
                 "pairs": [item.to_dict() for item in verifications],
             }
@@ -307,6 +402,7 @@ class GeometryWorkflow:
                     [group_dir / item["file"] for item in exports],
                     [item["solid_count"] for item in exports], drawexe,
                     [sum(parts[index - 1].exact.volume for index in final_groups[item["group"]]) for item in exports],
+                    config.export_volume_relative_tolerance,
                 )
                 (group_dir / "manifest.json").write_text(
                     json.dumps({"exports": exports, "validation": validation}, ensure_ascii=False, indent=2),
@@ -321,7 +417,7 @@ class GeometryWorkflow:
             })
 
         report = {
-            "version": "4.0.0", "method": "automated-brep-similarity-with-independent-precision-verification",
+            "version": "4.1.0", "method": "automated-brep-similarity-with-independent-precision-verification",
             "source": str(source), "source_sha256": source_hash, "occt_drawexe": str(drawexe),
             "config": config.to_dict(), "part_count": len(parts),
             "candidate_group_count": len(candidate_groups), "group_count": len(final_groups),
@@ -342,11 +438,16 @@ class GeometryWorkflow:
             "precision_verification": config.precision_mode,
             "precision_vertex_tolerance": config.vertex_tolerance,
             "boolean_relative_tolerance": config.boolean_relative_tolerance,
+            "boolean_batching": "groups of four with recursive failure isolation",
+            "precision_checkpoint": "after every completed Boolean leaf batch",
+            "precision_algorithm_revision": PRECISION_ALGORITHM_REVISION,
         }, ensure_ascii=False, indent=2), encoding="utf-8")
         artifacts = [
             output / "parts.csv", output / "similarities.csv", output / "report.json",
             output / "precision_report.json", output / "data_quality.json", output / "method.json",
         ]
+        if (output / "precision_checkpoint.json").is_file():
+            artifacts.append(output / "precision_checkpoint.json")
         if not config.skip_step_export:
             artifacts.extend(sorted((output / "grouped_steps").glob("*")))
         recorder.collect_artifacts(artifacts)

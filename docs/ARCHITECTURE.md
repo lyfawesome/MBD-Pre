@@ -1,4 +1,4 @@
-# 架构与迭代契约
+# 几何分类内核架构与迭代契约
 
 ## 目标
 
@@ -23,7 +23,7 @@ STEP 源文件
 - `occt_backend.py`：隔离 OCCT/DRAW 进程、精确质量属性、布尔运算与 STEP 输入输出。
 - `step_graph.py`：将标准化 STEP 解析成属性面邻接图及无训练描述符。
 - `similarity.py`：距离通道、尺寸门控和可解释分解。
-- `clustering.py`：确定性 complete-link 候选分组。
+- `similarity.py`：距离通道、尺寸门控和确定性 complete-link 候选分组。
 - `precision.py`：不依赖候选向量的刚体对齐、镜像拒绝和精确关系森林。
 - `workflow.py`：编排阶段、质量门禁、产物和失败语义；不实现几何算法。
 - `telemetry.py`：原子更新运行清单、事件日志、环境与产物哈希。
@@ -56,9 +56,8 @@ relative_error = max(volume(A-B), volume(B-A)) / max(volume(A), volume(B))
 4. 参数调整只在固定数据切分上进行；留出数据只用于最终验证，避免对单个 `motor.STEP` 过拟合。
 5. 描述符升级为自监督 B-Rep 表征时，保留现有精确层作为独立判据，不让训练模型同时充当发现器和裁判器。
 
-## 待扩展设施
+## 持续迭代控制面
 
-- 数据集索引与人工对照表 schema。
-- 精确关系按零件哈希+容差缓存，避免重复布尔运算。
-- 现有并行 OCCT 批次进一步升级为可持久作业队列，支持单对超时、重试和更粒度的失败隔离。
-- 数据集级 precision/recall、簇纯度、ARI/NMI 和开集未知件指标。
+几何内核不负责联网、数据选择或算法版本晋级。`iteration_engine/` 在内核外提供覆盖评估、来源发现、参数赛跑、证据门禁和可恢复周期状态。这样网络失败、来源许可变化或人工标签缺失都不会改变几何判定语义。
+
+完整设计、自动化成熟度和运行方法见 [AUTOMATION_ARCHITECTURE.md](AUTOMATION_ARCHITECTURE.md)。

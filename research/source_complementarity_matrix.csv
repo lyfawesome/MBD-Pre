@@ -1,0 +1,7 @@
+﻿source_class,provenance,geometry,licenses,assembly_structure,validation_role
+GitHub upstream STEP assemblies,primary,yes,yes,yes,Primary downloadable B-Rep data with explicit project licenses
+Quidities gallery,derived,no,supporting,supporting,Discovery and independent assembly-size cross-check; not used as raw geometry
+AutoMate Zenodo corpus,primary,yes,yes,yes,Large-scale expansion source with assembly graphs and STEP parts
+NIST PMI examples,primary,yes,yes,supporting,Small authoritative STEP conformance and interoperability controls
+Local OCCT inspection,derived,no,supporting,supporting,"Independent Solid count, validity and roundtrip evidence"
+Human risk queue,derived,no,supporting,supporting,Semantic/visual adjudication of merges and missed merges

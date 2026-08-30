@@ -21,6 +21,7 @@ class WorkflowConfig:
     precision_mode: str = "boolean"
     vertex_tolerance: float = 1e-5
     boolean_relative_tolerance: float = 1e-6
+    export_volume_relative_tolerance: float = 1e-6
     precision_workers: int = 4
 
     def validate(self) -> None:
@@ -34,7 +35,8 @@ class WorkflowConfig:
             raise ValueError("wl_iterations must be in [1, 5]")
         if self.precision_mode not in {"boolean", "rigid", "off"}:
             raise ValueError("precision_mode must be boolean, rigid, or off")
-        if self.vertex_tolerance <= 0 or self.boolean_relative_tolerance <= 0:
+        if (self.vertex_tolerance <= 0 or self.boolean_relative_tolerance <= 0
+                or self.export_volume_relative_tolerance <= 0):
             raise ValueError("precision tolerances must be positive")
         if not 1 <= self.precision_workers <= 16:
             raise ValueError("precision_workers must be in [1, 16]")

@@ -87,9 +87,11 @@ class WorkflowRecorder:
         result = {"name": name, "passed": passed, "evidence": evidence}
         self.manifest["quality_gates"].append(result)
         self.event("quality_gate", **result)
-        self._write_manifest()
         if not passed:
+            self.manifest["status"] = "failed"
+            self._write_manifest()
             raise RuntimeError(f"Quality gate failed: {name}: {evidence}")
+        self._write_manifest()
 
     def collect_artifacts(self, paths: list[Path]) -> list[dict]:
         artifacts = []

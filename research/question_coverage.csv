@@ -1,0 +1,8 @@
+﻿question,primary_evidence,acceptance
+Can the file be legally and reproducibly acquired?,source_catalog.csv; raw_data_file_inventory.csv,"Known license, stable URL, SHA-256"
+Is it a real multi-part assembly rather than an isolated standard part?,inspection_results.csv,At least 10 OCCT Solid entities
+Does the algorithm find repeated geometry?,classification_runs.csv; per-run report.json,Completed run; inspect multi-member groups
+Are within-group merges geometrically defensible?,precision_report.json; Boolean subset,Rigid/Boolean verification passes
+Could equivalent parts have been split across groups?,human_review/review_queue.csv near-miss stratum,Cross-group near-neighbour audit
+Is the result stable?,stability_report.json,Order ARI=1 and threshold plateau documented
+Can a human review it without opening every STEP?,human_review/index.html,Risk-stratified contact sheets and CSV export
