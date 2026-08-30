@@ -1,0 +1,7 @@
+source_family,primary_strength,unique_evidence,overlap,decision
+DOI research repositories,"Stable discovery, rights, metadata and direct files","BOMs, methods, checksums, versions and rich descriptions","Zenodo Mendeley Dryad records may mirror papers or other repositories",primary
+Government and standards corpora,"Authoritative STEP conformance and unrestricted reference files","Known product structures, test-case relationships and PMI","Small controlled models overlap weakly with real-machine geometry",primary_validation
+Cloud CAD platforms,"Native assembly graphs, mates, quantities and export","Live public designs and direct assembly structure","AutoMate is a historical snapshot of Onshape",conditional_authenticated
+Manufacturer/community CAD portals,"Broad commercial component taxonomy","Real supplier product classifications and configured products","Many entries are isolated standard parts and licenses vary",manual_targeted_only
+ML assembly benchmarks,"Large scale part/sequence labels","Assembly order, trajectories and graph structure","Often mesh/native archive rather than STEP BREP",metadata_only_until_format_verified
+Open-hardware project forges,"Real reproducible machines with BOM and licenses","Assembly guides, source CAD and project context","GitLab/OHWR/Wikifactory overlap with code-forge discovery",secondary

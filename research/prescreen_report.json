@@ -1,0 +1,909 @@
+{
+  "candidate_count": 23,
+  "manufacturing_sectors": {
+    "additive_manufacturing": 2,
+    "aerospace_turbomachinery": 1,
+    "automotive_mobility": 2,
+    "biomedical_rehabilitation": 2,
+    "industrial_equipment": 5,
+    "machine_tools": 1,
+    "robotics_automation": 3,
+    "unknown": 7
+  },
+  "engineering_domains": {
+    "electrical_control": 2,
+    "fastening_joining": 3,
+    "fluid_handling": 3,
+    "human_interface": 2,
+    "motion_actuation": 2,
+    "power_transmission": 3,
+    "structure_enclosure": 6,
+    "tooling_machining": 1
+  },
+  "possible_components": {
+    "covers_housings": 3,
+    "electronics_connectors": 3,
+    "frames_brackets_plates": 6,
+    "gears_racks_worms": 2,
+    "motors_servos": 2,
+    "nuts_washers": 1,
+    "pulleys_belts_chains": 6,
+    "screws_bolts": 3,
+    "shafts_spindles": 1,
+    "springs_elastic": 1,
+    "tools_cutters": 4,
+    "valves_pumps_cylinders": 3
+  },
+  "assembly_confidence": {
+    "high": 7,
+    "low": 8,
+    "medium": 8
+  },
+  "decisions": {
+    "manual_assembly_review": 4,
+    "manual_license_review": 1,
+    "metadata_first": 7,
+    "priority_download": 6,
+    "reject_or_metadata_only": 5
+  },
+  "schema_version": 1,
+  "generated_at": "2026-08-30T16:58:32+00:00",
+  "candidates": [
+    {
+      "id": "mendeley_fff_printer",
+      "provider": "mendeley",
+      "title": "Reactivation and Upgrading of a Legacy FFF 3D Printer",
+      "filename": "Reactivation_Upgrading_FFF_3D_Printer_CoreXY.stp",
+      "description": "Full system assembly in STEP format with BOM. Subsystems include frame, print head, electronics, motors and pulleys, sliding rail, bed, extruder and fastening.",
+      "categories": "manufacturing fused filament fabrication printer",
+      "license": "CERN-OHL-P-2.0",
+      "access_status": "verified_api",
+      "expected_bytes": 106602778,
+      "landing_url": "https://data.mendeley.com/datasets/v8yf4j9y95/1",
+      "download_url": "https://data.mendeley.com/public-files/datasets/v8yf4j9y95/files/14476f34-6cd8-4872-bc68-7b53dcfaf317/file_downloaded",
+      "remote_probe": {
+        "url": "https://data.mendeley.com/public-files/datasets/v8yf4j9y95/files/14476f34-6cd8-4872-bc68-7b53dcfaf317/file_downloaded",
+        "filename": "Reactivation_Upgrading_FFF_3D_Printer_CoreXY.stp",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://prod-dcd-datasets-public-files-eu-west-1.s3.eu-west-1.amazonaws.com/b1137ded-2515-4fdc-b4ee-3fecf4dda546",
+        "content_type": "application/octet-stream",
+        "content_length": 1048576,
+        "content_range": "bytes 0-1048575/106602778",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 2097152,
+        "total_bytes": 106602778,
+        "tail_http_status": 206,
+        "product_count": 141,
+        "assembly_occurrence_count": 0,
+        "solid_marker_count": 3,
+        "step_header": true
+      },
+      "candidate_id": "mendeley_fff_printer",
+      "manufacturing_sector": "additive_manufacturing",
+      "sector_confidence": "high",
+      "engineering_domains": [
+        "motion_actuation",
+        "power_transmission",
+        "structure_enclosure"
+      ],
+      "possible_components": [
+        "frames_brackets_plates",
+        "electronics_connectors",
+        "motors_servos",
+        "pulleys_belts_chains"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 11,
+      "decision": "priority_download",
+      "evidence": [
+        "parts_evidence:bom",
+        "repetition_evidence:fastening",
+        "step_brep_format",
+        "step_structure:products=141,occurrences=0"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "mendeley_tape_module",
+      "provider": "mendeley",
+      "title": "Desktop-Scale Robot Tape Manipulation for Additive Manufacturing",
+      "filename": "TPM_MountNewDesignAssembly_NT.SLDASM",
+      "description": "Comprehensive CAD models and assembly files for a robot tape print module; all parts and components are included, with STEP part files.",
+      "categories": "robotics additive manufacturing computer-aided design",
+      "license": "CC-BY-NC-3.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/88ybzv5d5s/2",
+      "candidate_id": "mendeley_tape_module",
+      "manufacturing_sector": "robotics_automation",
+      "sector_confidence": "medium",
+      "engineering_domains": [
+        "structure_enclosure"
+      ],
+      "possible_components": [
+        "frames_brackets_plates"
+      ],
+      "assembly_confidence": "low",
+      "assembly_score": 4,
+      "decision": "reject_or_metadata_only",
+      "evidence": [
+        "parts_evidence:all parts|components",
+        "assembly_file:.sldasm"
+      ],
+      "caveats": [
+        "no_step_brep_evidence"
+      ]
+    },
+    {
+      "id": "mendeley_scarfing_tool",
+      "provider": "mendeley",
+      "title": "ScarfingTool: Advanced Tool to Repair CFRP",
+      "filename": "CAD STEP files",
+      "description": "Complete collaborative-robot grinding and scarfing tool with electro-spindle, smart sensor, adjustable compliance, suction inlet, pneumatic diagrams, assembly movie and bill of materials; IAM IPT STEP formats.",
+      "categories": "aerospace manufacturing robotics machining",
+      "license": "CC-BY-SA-4.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/h2zrpfx3pf/1",
+      "candidate_id": "mendeley_scarfing_tool",
+      "manufacturing_sector": "machine_tools",
+      "sector_confidence": "high",
+      "engineering_domains": [
+        "tooling_machining",
+        "electrical_control",
+        "fluid_handling"
+      ],
+      "possible_components": [
+        "tools_cutters",
+        "electronics_connectors",
+        "shafts_spindles",
+        "valves_pumps_cylinders"
+      ],
+      "assembly_confidence": "low",
+      "assembly_score": 4,
+      "decision": "manual_assembly_review",
+      "evidence": [
+        "parts_evidence:bill of materials",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "mendeley_ap242_engine",
+      "provider": "mendeley",
+      "title": "STEP AP242 Centering Pin Mechanism and Engine Assembly",
+      "filename": "STEP AP 242 files",
+      "description": "Centering pin mechanism and engine assembly models generated by Creo and SolidWorks in STEP AP242.",
+      "categories": "mechanical engineering tolerance",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/vgkvj5nn6s/2",
+      "candidate_id": "mendeley_ap242_engine",
+      "manufacturing_sector": "industrial_equipment",
+      "sector_confidence": "medium",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "medium",
+      "assembly_score": 5,
+      "decision": "metadata_first",
+      "evidence": [
+        "explicit_full_assembly:assembly model",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "mendeley_premove_helmet",
+      "provider": "mendeley",
+      "title": "PREMOVE_HELMET",
+      "filename": "STEP files",
+      "description": "Modular smart helmet assembly with smartphone mount, GPS module, four printed components, complete BOM and illustrated assembly guide.",
+      "categories": "mobility wearable sensing engineering",
+      "license": "CC-BY-NC-3.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/465mjbw33j/3",
+      "candidate_id": "mendeley_premove_helmet",
+      "manufacturing_sector": "automotive_mobility",
+      "sector_confidence": "medium",
+      "engineering_domains": [
+        "human_interface",
+        "structure_enclosure"
+      ],
+      "possible_components": [
+        "frames_brackets_plates"
+      ],
+      "assembly_confidence": "low",
+      "assembly_score": 4,
+      "decision": "manual_assembly_review",
+      "evidence": [
+        "parts_evidence:bom|components",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "mendeley_modular_robotics_kit",
+      "provider": "mendeley",
+      "title": "Open-Source Modular Robotics Kit for STEM",
+      "filename": "five module STEP assemblies",
+      "description": "Five parametric STEP assemblies: smart pot, automated parking, drawbridge, food dispenser and home automation, with PCB BOMs, motors, sensors and assembly animations.",
+      "categories": "robotics automation electronics education",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/pmvdtjs2jv/3",
+      "candidate_id": "mendeley_modular_robotics_kit",
+      "manufacturing_sector": "robotics_automation",
+      "sector_confidence": "high",
+      "engineering_domains": [
+        "electrical_control",
+        "motion_actuation"
+      ],
+      "possible_components": [
+        "electronics_connectors",
+        "motors_servos"
+      ],
+      "assembly_confidence": "medium",
+      "assembly_score": 7,
+      "decision": "metadata_first",
+      "evidence": [
+        "explicit_full_assembly:assemblies",
+        "parts_evidence:bom",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "mendeley_mock_blade",
+      "provider": "mendeley",
+      "title": "Mock-blade with dovetail attachments",
+      "filename": "assembly.STEP",
+      "description": "Turbine mock-blade, slot, supports and complete test-rig assembly in SLDASM, IGES, STEP and Parasolid formats.",
+      "categories": "aerospace turbomachinery dynamics contact mechanics",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/xkssd7gr92/1",
+      "candidate_id": "mendeley_mock_blade",
+      "manufacturing_sector": "aerospace_turbomachinery",
+      "sector_confidence": "high",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "medium",
+      "assembly_score": 6,
+      "decision": "metadata_first",
+      "evidence": [
+        "parts_evidence:bom",
+        "assembly_file:assembly.step",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "mendeley_gearpump_gearbox",
+      "provider": "mendeley",
+      "title": "Human-robot collaborative assembly workstation case studies",
+      "filename": "CAD files",
+      "description": "Two real assembly case studies: a gear pump and a gearbox, including assembled parts, supports, robot code and process videos.",
+      "categories": "advanced manufacturing robotics assembly",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/v3f5cd58hx/1",
+      "candidate_id": "mendeley_gearpump_gearbox",
+      "manufacturing_sector": "industrial_equipment",
+      "sector_confidence": "medium",
+      "engineering_domains": [
+        "power_transmission",
+        "fluid_handling"
+      ],
+      "possible_components": [
+        "covers_housings",
+        "gears_racks_worms",
+        "valves_pumps_cylinders"
+      ],
+      "assembly_confidence": "low",
+      "assembly_score": 3,
+      "decision": "reject_or_metadata_only",
+      "evidence": [
+        "explicit_full_assembly:assembled"
+      ],
+      "caveats": [
+        "no_step_brep_evidence"
+      ]
+    },
+    {
+      "id": "zenodo_generated_reassembly",
+      "provider": "zenodo",
+      "title": "Generated Reassembly Dataset",
+      "filename": "generated-reassembly-dataset.zip",
+      "description": "Generated CAD assemblies packaged with STEP assembly files and rendered PNG images for reassembly research.",
+      "categories": "CAD assembly benchmark",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_direct",
+      "expected_bytes": 334600000,
+      "landing_url": "https://zenodo.org/records/7628235",
+      "download_url": "https://zenodo.org/records/7628235/files/generated-reassembly-dataset.zip?download=1",
+      "remote_probe": {
+        "url": "https://zenodo.org/records/7628235/files/generated-reassembly-dataset.zip?download=1",
+        "filename": "generated-reassembly-dataset.zip",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://zenodo.org/records/7628235/files/generated-reassembly-dataset.zip?download=1",
+        "content_type": "application/octet-stream",
+        "content_length": 1048576,
+        "content_range": "bytes 0-1048575/334608635",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 2091224,
+        "total_bytes": 334608635,
+        "tail_http_status": 206,
+        "archive_entry_count_sampled": 605,
+        "step_entry_count": 129,
+        "assembly_step_entries": [
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p10.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p14.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p164.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p165.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p189.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p43.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p5.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/generated/FillTwoParts-p55.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/source/BERNAY ENGINE COMPLETE ASSEMBLY.stp",
+          "generated-reassembly-dataset/FillBetweenTwoPart/source/lamp_finale.step",
+          "generated-reassembly-dataset/FillBetweenTwoPart/source/source-assembly.step",
+          "generated-reassembly-dataset/ReplacePart/generated/10-0_0/0_0.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-0_1/0_1.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-0_2/0_2.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-0_3/0_3.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-0_4/0_4.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-1_0/1_0.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-1_1/1_1.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-1_2/1_2.STEP",
+          "generated-reassembly-dataset/ReplacePart/generated/10-1_3/1_3.STEP"
+        ],
+        "bom_entries": []
+      },
+      "candidate_id": "zenodo_generated_reassembly",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "medium",
+      "assembly_score": 5,
+      "decision": "metadata_first",
+      "evidence": [
+        "explicit_full_assembly:assemblies",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "zenodo_lbnl_raft_robot",
+      "provider": "zenodo",
+      "title": "LBNL DESI Raft Fiber Robot Assembly",
+      "filename": "DE-1000-0318_Raft_Assembly_2024-02-21.STEP",
+      "description": "Scientific-instrument raft assembly with 63 fiber robots; 21 Trillium units are each mounted by 3 captive screws. Human-readable XLSX parts list is included.",
+      "categories": "scientific instrumentation robotics",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_direct",
+      "expected_bytes": 79800000,
+      "landing_url": "https://zenodo.org/records/10688571",
+      "download_url": "https://zenodo.org/records/10688571/files/DE-1000-0318_Raft_Assembly_2024-02-21.STEP?download=1",
+      "remote_probe": {
+        "url": "https://zenodo.org/records/10688571/files/DE-1000-0318_Raft_Assembly_2024-02-21.STEP?download=1",
+        "filename": "DE-1000-0318_Raft_Assembly_2024-02-21.STEP",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://zenodo.org/records/10688571/files/DE-1000-0318_Raft_Assembly_2024-02-21.STEP?download=1",
+        "content_type": "application/octet-stream",
+        "content_length": 1048576,
+        "content_range": "bytes 0-1048575/79810491",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 2097152,
+        "total_bytes": 79810491,
+        "tail_http_status": 206,
+        "product_count": 1,
+        "assembly_occurrence_count": 285,
+        "solid_marker_count": 0,
+        "step_header": true
+      },
+      "candidate_id": "zenodo_lbnl_raft_robot",
+      "manufacturing_sector": "robotics_automation",
+      "sector_confidence": "medium",
+      "engineering_domains": [
+        "fastening_joining",
+        "structure_enclosure"
+      ],
+      "possible_components": [
+        "frames_brackets_plates",
+        "screws_bolts"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 11,
+      "decision": "priority_download",
+      "evidence": [
+        "parts_evidence:parts list",
+        "repetition_evidence:screws",
+        "step_brep_format",
+        "step_structure:products=1,occurrences=285"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "zenodo_mk4_prosthetic_hand",
+      "provider": "zenodo",
+      "title": "MK4 Prosthetic Hand",
+      "filename": "Assembled prosthesis.STEP",
+      "description": "Full prosthetic hand assembly with standard components, bolts, phalanges, pulleys, cables, elastic elements and a worm gear.",
+      "categories": "biomedical prosthetics rehabilitation",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_direct",
+      "expected_bytes": 65400000,
+      "landing_url": "https://zenodo.org/records/21489522",
+      "download_url": "https://zenodo.org/records/21489522/files/Assembled%20prosthesis.STEP?download=1",
+      "remote_probe": {
+        "url": "https://zenodo.org/records/21489522/files/Assembled%20prosthesis.STEP?download=1",
+        "filename": "Assembled prosthesis.STEP",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://zenodo.org/records/21489522/files/Assembled%20prosthesis.STEP?download=1",
+        "content_type": "application/octet-stream",
+        "content_length": 1048576,
+        "content_range": "bytes 0-1048575/65422269",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 2079396,
+        "total_bytes": 65422269,
+        "tail_http_status": 206,
+        "product_count": 0,
+        "assembly_occurrence_count": 0,
+        "solid_marker_count": 4,
+        "step_header": true
+      },
+      "candidate_id": "zenodo_mk4_prosthetic_hand",
+      "manufacturing_sector": "biomedical_rehabilitation",
+      "sector_confidence": "high",
+      "engineering_domains": [
+        "power_transmission",
+        "human_interface",
+        "fastening_joining"
+      ],
+      "possible_components": [
+        "gears_racks_worms",
+        "pulleys_belts_chains",
+        "screws_bolts",
+        "springs_elastic"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 9,
+      "decision": "priority_download",
+      "evidence": [
+        "explicit_full_assembly:assembled",
+        "parts_evidence:components",
+        "repetition_evidence:bolts",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "zenodo_cadog_eval",
+      "provider": "zenodo",
+      "title": "cadog Evaluation Assemblies",
+      "filename": "cadog-evaluation-data-zenodo-v1.0.2.zip",
+      "description": "Assembly STEP files, JSON metadata and text parts lists, including FarmBot Genesis and an Open Lab Starter Kit large laser machine.",
+      "categories": "industrial machinery robotics CAD benchmark",
+      "license": "mixed-review-required",
+      "access_status": "verified_direct",
+      "expected_bytes": 1000000000,
+      "landing_url": "https://zenodo.org/records/17644971",
+      "download_url": "https://zenodo.org/records/17644971/files/cadog-evaluation-data-zenodo-v1.0.2.zip?download=1",
+      "remote_probe": {
+        "url": "https://zenodo.org/records/17644971/files/cadog-evaluation-data-zenodo-v1.0.2.zip?download=1",
+        "filename": "cadog-evaluation-data-zenodo-v1.0.2.zip",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://zenodo.org/records/17644971/files/cadog-evaluation-data-zenodo-v1.0.2.zip?download=1",
+        "content_type": "application/octet-stream",
+        "content_length": 1048576,
+        "content_range": "bytes 0-1048575/1021999664",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 2073612,
+        "total_bytes": 1021999664,
+        "tail_http_status": 206,
+        "archive_entry_count_sampled": 145,
+        "step_entry_count": 9,
+        "assembly_step_entries": [],
+        "bom_entries": []
+      },
+      "candidate_id": "zenodo_cadog_eval",
+      "manufacturing_sector": "industrial_equipment",
+      "sector_confidence": "medium",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "medium",
+      "assembly_score": 7,
+      "decision": "metadata_first",
+      "evidence": [
+        "explicit_full_assembly:assemblies",
+        "parts_evidence:parts list",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "zenodo_allstruder",
+      "provider": "zenodo",
+      "title": "Allstruder Modular Syringe Extruder",
+      "filename": "Allstruder Assembly.STEP",
+      "description": "Modular syringe pump and extruder complete assembly using standard off-the-shelf components, interchangeable syringe adapters and mounting plates.",
+      "categories": "bioprinting additive manufacturing pump extruder",
+      "license": "unknown",
+      "access_status": "verified_direct",
+      "expected_bytes": 32400000,
+      "landing_url": "https://zenodo.org/records/21359888",
+      "download_url": "https://zenodo.org/records/21359888/files/Allstruder%20Assembly.STEP?download=1",
+      "remote_probe": {
+        "url": "https://zenodo.org/records/21359888/files/Allstruder%20Assembly.STEP?download=1",
+        "filename": "Allstruder Assembly.STEP",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://zenodo.org/records/21359888/files/Allstruder%20Assembly.STEP?download=1",
+        "content_type": "application/octet-stream",
+        "content_length": 1048576,
+        "content_range": "bytes 0-1048575/32358000",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 2064708,
+        "total_bytes": 32358000,
+        "tail_http_status": 206,
+        "product_count": 0,
+        "assembly_occurrence_count": 0,
+        "solid_marker_count": 18,
+        "step_header": true
+      },
+      "candidate_id": "zenodo_allstruder",
+      "manufacturing_sector": "additive_manufacturing",
+      "sector_confidence": "medium",
+      "engineering_domains": [
+        "structure_enclosure",
+        "fluid_handling"
+      ],
+      "possible_components": [
+        "frames_brackets_plates",
+        "valves_pumps_cylinders"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 12,
+      "decision": "manual_license_review",
+      "evidence": [
+        "explicit_full_assembly:complete assembly",
+        "parts_evidence:components",
+        "assembly_file:assembly.step",
+        "step_brep_format",
+        "step_structure:solid_markers=18"
+      ],
+      "caveats": [
+        "license_requires_review"
+      ]
+    },
+    {
+      "id": "dryad_automate",
+      "provider": "dryad",
+      "title": "AutoMate BREP CAD Assemblies",
+      "filename": "assemblies.zip + step.zip",
+      "description": "255211 public Onshape assemblies, 451967 unique STEP and Parasolid parts and 1292016 mates; assembly graphs and metadata are separate from the 13.21 GB STEP archive.",
+      "categories": "large-scale CAD assembly mate prediction",
+      "license": "CC0-1.0",
+      "access_status": "verified_api",
+      "expected_bytes": 34930000000,
+      "landing_url": "https://datadryad.org/dataset/doi:10.5061/dryad.2547d7wvw",
+      "candidate_id": "dryad_automate",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "medium",
+      "assembly_score": 7,
+      "decision": "metadata_first",
+      "evidence": [
+        "explicit_full_assembly:assemblies",
+        "product_structure:assembly graph|mates",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "nist_mtc_box",
+      "provider": "nist",
+      "title": "NIST MTC Box Assembly",
+      "filename": "MTC box assembly CAD/STEP package",
+      "description": "Manufacturable box assembly with box, cover, plate, polycarbonate window, hex nuts, socket cap screws and flat-head screws; BOM is published in the viewer.",
+      "categories": "manufacturing PMI metrology",
+      "license": "NIST-unrestricted",
+      "access_status": "public",
+      "landing_url": "https://pages.nist.gov/CAD-PMI-Testing/step-file-viewer.html",
+      "candidate_id": "nist_mtc_box",
+      "manufacturing_sector": "automotive_mobility",
+      "sector_confidence": "medium",
+      "engineering_domains": [
+        "fastening_joining",
+        "structure_enclosure"
+      ],
+      "possible_components": [
+        "covers_housings",
+        "screws_bolts",
+        "frames_brackets_plates",
+        "nuts_washers"
+      ],
+      "assembly_confidence": "medium",
+      "assembly_score": 6,
+      "decision": "metadata_first",
+      "evidence": [
+        "parts_evidence:bom",
+        "repetition_evidence:nuts|screws",
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "nist_ftc_fit_assembly",
+      "provider": "nist",
+      "title": "NIST FTC 07-10 Fit Assembly",
+      "filename": "FTC STEP AP242 package",
+      "description": "Four fully-toleranced mechanical test cases FTC 07, 08, 09 and 10 designed to fit together in an assembly.",
+      "categories": "manufacturing PMI interoperability",
+      "license": "NIST-unrestricted",
+      "access_status": "public",
+      "landing_url": "https://www.nist.gov/ctl/smart-connected-systems-division/smart-connected-manufacturing-systems-group/mbe-pmi-0",
+      "candidate_id": "nist_ftc_fit_assembly",
+      "manufacturing_sector": "industrial_equipment",
+      "sector_confidence": "medium",
+      "engineering_domains": [],
+      "possible_components": [
+        "covers_housings",
+        "pulleys_belts_chains"
+      ],
+      "assembly_confidence": "low",
+      "assembly_score": 2,
+      "decision": "manual_assembly_review",
+      "evidence": [
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "steptools_as1_ac",
+      "provider": "steptools",
+      "title": "STEP Tools AS1 AutoCAD Assembly",
+      "filename": "as1-ac-214.stp",
+      "description": "AP214 sample demonstrating assembly product structure with multiple PRODUCT entities and repeated component instances.",
+      "categories": "CAD interoperability assembly",
+      "license": "sample-use-review",
+      "access_status": "verified_direct",
+      "expected_bytes": 86000,
+      "landing_url": "https://steptools.com/docs/stpfiles/ap214/index.html",
+      "download_url": "https://steptools.com/docs/stpfiles/ap214/as1-ac-214.stp",
+      "remote_probe": {
+        "url": "https://steptools.com/docs/stpfiles/ap214/as1-ac-214.stp",
+        "filename": "as1-ac-214.stp",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://steptools.com/docs/stpfiles/ap214/as1-ac-214.stp",
+        "content_type": "",
+        "content_length": 83424,
+        "content_range": "bytes 0-83423/83424",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 83424,
+        "total_bytes": 83424,
+        "product_count": 9,
+        "assembly_occurrence_count": 13,
+        "solid_marker_count": 5,
+        "step_header": true
+      },
+      "candidate_id": "steptools_as1_ac",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [
+        "pulleys_belts_chains",
+        "tools_cutters"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 11,
+      "decision": "priority_download",
+      "evidence": [
+        "product_structure:product structure",
+        "repetition_evidence:repeated",
+        "step_brep_format",
+        "step_structure:products=9,occurrences=13"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "steptools_as1_ec",
+      "provider": "steptools",
+      "title": "STEP Tools AS1 Euclid Assembly",
+      "filename": "as1-ec-214.stp",
+      "description": "AP214 sample demonstrating assemblies and product structure, exported by Euclid.",
+      "categories": "CAD interoperability assembly",
+      "license": "sample-use-review",
+      "access_status": "verified_direct",
+      "expected_bytes": 435000,
+      "landing_url": "https://steptools.com/docs/stpfiles/ap214/index.html",
+      "download_url": "https://steptools.com/docs/stpfiles/ap214/as1-ec-214.stp",
+      "remote_probe": {
+        "url": "https://steptools.com/docs/stpfiles/ap214/as1-ec-214.stp",
+        "filename": "as1-ec-214.stp",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://steptools.com/docs/stpfiles/ap214/as1-ec-214.stp",
+        "content_type": "",
+        "content_length": 435038,
+        "content_range": "bytes 0-435037/435038",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 435038,
+        "total_bytes": 435038,
+        "product_count": 9,
+        "assembly_occurrence_count": 13,
+        "solid_marker_count": 5,
+        "step_header": true
+      },
+      "candidate_id": "steptools_as1_ec",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [
+        "pulleys_belts_chains",
+        "tools_cutters"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 12,
+      "decision": "priority_download",
+      "evidence": [
+        "explicit_full_assembly:assemblies",
+        "product_structure:product structure",
+        "step_brep_format",
+        "step_structure:products=9,occurrences=13"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "steptools_as1_ug",
+      "provider": "steptools",
+      "title": "STEP Tools AS1 Unigraphics Assembly",
+      "filename": "as1-ug-214.stp",
+      "description": "AP214 sample demonstrating assemblies and product structure, exported by Unigraphics.",
+      "categories": "CAD interoperability assembly",
+      "license": "sample-use-review",
+      "access_status": "verified_direct",
+      "expected_bytes": 76000,
+      "landing_url": "https://steptools.com/docs/stpfiles/ap214/index.html",
+      "download_url": "https://steptools.com/docs/stpfiles/ap214/as1-ug-214.stp",
+      "remote_probe": {
+        "url": "https://steptools.com/docs/stpfiles/ap214/as1-ug-214.stp",
+        "filename": "as1-ug-214.stp",
+        "probe_status": "verified",
+        "http_status": 206,
+        "final_url": "https://steptools.com/docs/stpfiles/ap214/as1-ug-214.stp",
+        "content_type": "text/plain",
+        "content_length": 73325,
+        "content_range": "bytes 0-73324/73325",
+        "accept_ranges": "bytes",
+        "bytes_sampled": 73325,
+        "total_bytes": 73325,
+        "product_count": 9,
+        "assembly_occurrence_count": 13,
+        "solid_marker_count": 5,
+        "step_header": true
+      },
+      "candidate_id": "steptools_as1_ug",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [
+        "pulleys_belts_chains",
+        "tools_cutters"
+      ],
+      "assembly_confidence": "high",
+      "assembly_score": 12,
+      "decision": "priority_download",
+      "evidence": [
+        "explicit_full_assembly:assemblies",
+        "product_structure:product structure",
+        "step_brep_format",
+        "step_structure:products=9,occurrences=13"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "merl_assemblybench",
+      "provider": "merl",
+      "title": "AssemblyBench",
+      "filename": "3D part models and trajectories",
+      "description": "2789 complex industrial objects with multimodal manuals, 3D part models and physically plausible six-degree-of-freedom assembly trajectories.",
+      "categories": "industrial assembly benchmark",
+      "license": "research-use-review",
+      "access_status": "public",
+      "landing_url": "https://merl.com/research/downloads/AssemblyBench",
+      "candidate_id": "merl_assemblybench",
+      "manufacturing_sector": "industrial_equipment",
+      "sector_confidence": "medium",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "low",
+      "assembly_score": 0,
+      "decision": "reject_or_metadata_only",
+      "evidence": [],
+      "caveats": [
+        "no_step_brep_evidence"
+      ]
+    },
+    {
+      "id": "autodesk_fusion_gallery_assembly",
+      "provider": "autodesk",
+      "title": "Fusion 360 Gallery Assembly Dataset",
+      "filename": "Fusion design archives",
+      "description": "Large assembly-design research corpus with assembly structure and design histories; useful for metadata but no verified STEP package in the public release.",
+      "categories": "CAD design assembly",
+      "license": "research-use-review",
+      "access_status": "public",
+      "landing_url": "https://www.research.autodesk.com/publications/fusion-360-gallery/",
+      "candidate_id": "autodesk_fusion_gallery_assembly",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "low",
+      "assembly_score": 2,
+      "decision": "manual_assembly_review",
+      "evidence": [
+        "step_brep_format"
+      ],
+      "caveats": []
+    },
+    {
+      "id": "onshape_public_documents",
+      "provider": "onshape",
+      "title": "Onshape Public Document Assemblies",
+      "filename": "API STEP export",
+      "description": "Public parametric CAD documents can contain parts, subassemblies and mates; the authenticated translation API exports an entire assembly to STEP.",
+      "categories": "cloud CAD mechanical assembly",
+      "license": "per-document",
+      "access_status": "login_required",
+      "landing_url": "https://onshape-public.github.io/docs/api-adv/translation/",
+      "candidate_id": "onshape_public_documents",
+      "manufacturing_sector": "unknown",
+      "sector_confidence": "low",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "medium",
+      "assembly_score": 5,
+      "decision": "reject_or_metadata_only",
+      "evidence": [
+        "explicit_full_assembly:assemblies|entire assembly",
+        "product_structure:mates"
+      ],
+      "caveats": [
+        "access_login_required",
+        "no_step_brep_evidence"
+      ]
+    },
+    {
+      "id": "mendeley_arm01",
+      "provider": "mendeley",
+      "title": "ARM-01 Rehabilitation Robot",
+      "filename": "File 3D.rar",
+      "description": "Complete two-degree-of-freedom rehabilitation robot CAD, drawings, electrical schematics and assembly videos; archive format and internal STEP availability require inspection.",
+      "categories": "biomedical rehabilitation robotics",
+      "license": "CC-BY-4.0",
+      "access_status": "verified_api",
+      "landing_url": "https://data.mendeley.com/datasets/c4kc5bdztk/2",
+      "candidate_id": "mendeley_arm01",
+      "manufacturing_sector": "biomedical_rehabilitation",
+      "sector_confidence": "high",
+      "engineering_domains": [],
+      "possible_components": [],
+      "assembly_confidence": "low",
+      "assembly_score": 0,
+      "decision": "reject_or_metadata_only",
+      "evidence": [],
+      "caveats": [
+        "no_step_brep_evidence"
+      ]
+    }
+  ]
+}

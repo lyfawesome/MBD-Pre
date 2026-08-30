@@ -8,8 +8,10 @@ from pathlib import Path
 from iteration_engine.config import load_config
 from iteration_engine.benchmark import adjusted_rand_index
 from iteration_engine.coverage import build_coverage, extract_product_names, geometry_signature
-from iteration_engine.discovery import _decision, discover
+from iteration_engine.discovery import _decision, _semantic_hits, discover
 from iteration_engine.gates import evaluate_gates
+from iteration_engine.prescreen import prescreen_candidate
+from iteration_engine.remote_probe import _step_counts
 
 
 class CoverageTest(unittest.TestCase):
@@ -57,6 +59,37 @@ class DiscoveryPolicyTest(unittest.TestCase):
                               root / "candidates.json", root / "attempts.json", 0.1)
             self.assertEqual(result["query_count"], 0)
             self.assertEqual(result["candidates"], [])
+
+    def test_semantic_hits_do_not_use_substring_false_positives(self):
+        self.assertEqual(_semantic_hits("laser cutting process", ["cutter"]), set())
+        self.assertEqual(_semantic_hits("end mill tool holder", ["end mill"]), {"end mill"})
+
+
+class PrescreenTest(unittest.TestCase):
+    def test_metadata_identifies_sector_components_and_assembly(self):
+        result = prescreen_candidate({
+            "id": "printer", "title": "Full 3D printer assembly.STEP",
+            "description": "BOM with motors, pulleys, belts, screws, nuts and frame components",
+            "license": "CC-BY-4.0", "access_status": "verified_direct",
+        })
+        self.assertEqual(result.manufacturing_sector, "additive_manufacturing")
+        self.assertIn("screws_bolts", result.possible_components)
+        self.assertEqual(result.decision, "priority_download")
+
+    def test_no_step_evidence_never_prioritizes_download(self):
+        result = prescreen_candidate({
+            "id": "mesh", "title": "Industrial assembly meshes",
+            "description": "Parts and trajectories", "license": "CC-BY-4.0", "access_status": "public",
+        })
+        self.assertEqual(result.decision, "reject_or_metadata_only")
+
+    def test_step_structure_markers_are_counted(self):
+        counts = _step_counts(
+            b"#1=PRODUCT('A','','',());#2=PRODUCT('B','','',());"
+            b"#3=NEXT_ASSEMBLY_USAGE_OCCURRENCE('','','',#1,#2,$);"
+        )
+        self.assertEqual(counts["product_count"], 2)
+        self.assertEqual(counts["assembly_occurrence_count"], 1)
 
 
 class PromotionGateTest(unittest.TestCase):

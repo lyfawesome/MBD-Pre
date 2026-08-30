@@ -6,15 +6,18 @@ import json
 import multiprocessing
 import os
 import queue
+import re
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Iterable
 
 from .io import atomic_write_json, stable_id, utc_now
+from .prescreen import prescreen_candidate
 
 
 USER_AGENT = "MBD-Pre-continuous-discovery/1.0"
@@ -37,6 +40,12 @@ class Candidate:
     score: int
     decision: str
     decision_reason: str
+    description: str = ""
+    categories: str = ""
+    manufacturing_sector: str = "unknown"
+    possible_components: tuple[str, ...] = ()
+    assembly_confidence: str = "low"
+    assembly_score: int = 0
 
 
 def _get_json(url: str, token: str | None = None) -> dict:
@@ -142,9 +151,133 @@ def discover_github(
     return candidates, events
 
 
+def _datacite_license(attributes: dict) -> str:
+    rights = attributes.get("rightsList") or []
+    for item in rights:
+        identifier = str(item.get("rightsIdentifier") or "")
+        if identifier:
+            return identifier
+        uri = str(item.get("rightsUri") or "").casefold()
+        if "by-sa/4.0" in uri:
+            return "CC-BY-SA-4.0"
+        if "by/4.0" in uri:
+            return "CC-BY-4.0"
+    return ""
+
+
+def _semantic_hits(text: str, keywords: Iterable[str]) -> set[str]:
+    lowered = text.casefold()
+    return {
+        keyword for keyword in keywords
+        if re.search(r"(?<![\w-])" + re.escape(keyword.casefold()) + r"(?![\w-])", lowered)
+    }
+
+
+def _mendeley_files(dataset_id: str, version: int) -> list[dict]:
+    base = f"https://data.mendeley.com/public-api/datasets/{dataset_id}"
+    folders = _get_json(f"{base}/folders/{version}")
+    folder_ids = ["root"] + [str(item["id"]) for item in folders]
+    headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.mendeley-public-dataset.1+json"}
+
+    def fetch(folder_id: str) -> list[dict]:
+        url = f"{base}/files?" + urllib.parse.urlencode({"folder_id": folder_id, "version": version})
+        request = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(request, timeout=20) as response:
+            payload = json.load(response)
+        return payload if isinstance(payload, list) else []
+
+    with ThreadPoolExecutor(max_workers=min(8, len(folder_ids))) as executor:
+        groups = list(executor.map(fetch, folder_ids))
+    by_id = {}
+    for group in groups:
+        for file in group:
+            by_id[str(file.get("id", ""))] = file
+    return list(by_id.values())
+
+
+def discover_mendeley(
+    entity_type: str,
+    keywords: list[str],
+    rows: int,
+    allowed: set[str],
+    maximum: int,
+) -> tuple[list[Candidate], list[dict]]:
+    """Discover DOI-indexed Mendeley records, then inspect anonymous file trees."""
+    selected_keywords = keywords[:3]
+    per_keyword = max(2, rows // max(1, len(selected_keywords)))
+    urls = ["https://api.datacite.org/dois?" + urllib.parse.urlencode({
+        # DataCite metadata often omits the export format even when the repository
+        # contains STEP. Search semantic CAD terms, then verify the actual file tree.
+        "query": f"{keyword} CAD", "page[size]": per_keyword,
+        "resource-type-id": "dataset", "prefix": "10.17632",
+    }) for keyword in selected_keywords]
+    events = [{"provider": "mendeley", "entity_type": entity_type, "urls": urls,
+               "attempted_at": utc_now(), "status": "started"}]
+    candidates: list[Candidate] = []
+    try:
+        records_by_doi = {}
+        for url in urls:
+            for record in _get_json(url).get("data", []):
+                records_by_doi[str(record.get("attributes", {}).get("doi", ""))] = record
+        for record in records_by_doi.values():
+            attributes = record.get("attributes", {})
+            doi = str(attributes.get("doi", ""))
+            match = re.fullmatch(r"10\.17632/([^.]+)\.(\d+)", doi, flags=re.IGNORECASE)
+            if not match:
+                continue
+            dataset_id, version_text = match.groups()
+            version = int(version_text)
+            title_items = attributes.get("titles") or []
+            title = str(title_items[0].get("title", doi)) if title_items else doi
+            descriptions = attributes.get("descriptions") or []
+            description = " ".join(str(item.get("description", "")) for item in descriptions)
+            subjects = attributes.get("subjects") or []
+            categories = " ".join(str(item.get("subject", "")) for item in subjects)
+            strong_hits = _semantic_hits(f"{title} {categories}", keywords)
+            description_hits = _semantic_hits(description, keywords)
+            if not strong_hits and not description_hits:
+                continue
+            license_id = _datacite_license(attributes)
+            landing = str(attributes.get("url") or f"https://data.mendeley.com/datasets/{dataset_id}/{version}")
+            for file in _mendeley_files(dataset_id, version):
+                filename = str(file.get("filename", ""))
+                if not filename.casefold().endswith(STEP_SUFFIXES):
+                    continue
+                filename_hits = _semantic_hits(filename, keywords)
+                if not strong_hits and len(description_hits) < 2 and not filename_hits:
+                    continue
+                details = file.get("content_details") or {}
+                size = details.get("size") or file.get("size")
+                download = str(details.get("download_url", ""))
+                screened = prescreen_candidate({
+                    "id": f"mendeley_{dataset_id}_{file.get('id', '')}", "title": title,
+                    "description": description, "categories": categories, "filename": filename,
+                    "access_status": "verified_api", "license": license_id,
+                })
+                decision, reason = _decision(license_id, size, allowed, maximum)
+                if decision == "staged" and screened.assembly_confidence == "low":
+                    decision, reason = "manual_review", "assembly_evidence_insufficient"
+                candidates.append(Candidate(
+                    candidate_id=f"mendeley_{dataset_id}_" + stable_id(str(file.get("id", ""))),
+                    provider="mendeley", matched_type=entity_type, title=title,
+                    filename=filename, download_url=download, landing_url=landing,
+                    license=license_id, expected_bytes=size, repository=f"Mendeley:{dataset_id}",
+                    discovered_at=utc_now(), score=5 + screened.assembly_score,
+                    decision=decision, decision_reason=reason, description=description,
+                    categories=categories, manufacturing_sector=screened.manufacturing_sector,
+                    possible_components=tuple(screened.possible_components),
+                    assembly_confidence=screened.assembly_confidence,
+                    assembly_score=screened.assembly_score,
+                ))
+        events[-1].update(status="completed", candidates=len(candidates), records=len(records_by_doi))
+    except (OSError, ValueError, urllib.error.URLError, json.JSONDecodeError) as exc:
+        events[-1].update(status="failed", error=f"{type(exc).__name__}: {exc}")
+    return candidates, events
+
+
 def _provider_worker(result_queue, provider: str, entity_type: str, keywords: list[str],
                      rows: int, allowed: set[str], maximum: int) -> None:
-    adapters = {"zenodo": discover_zenodo, "github": discover_github}
+    adapters = {"zenodo": discover_zenodo, "github": discover_github, "mendeley": discover_mendeley}
     try:
         candidates, events = adapters[provider](entity_type, keywords, rows, allowed, maximum)
         result_queue.put((provider, entity_type, candidates, events))
@@ -170,7 +303,7 @@ def discover(
     allowed = {value.casefold() for value in allowed_licenses}
     all_candidates: list[Candidate] = []
     events: list[dict] = []
-    adapters = {"zenodo": discover_zenodo, "github": discover_github}
+    adapters = {"zenodo": discover_zenodo, "github": discover_github, "mendeley": discover_mendeley}
     jobs = []
     for entity_type in missing_types:
         for provider in providers:

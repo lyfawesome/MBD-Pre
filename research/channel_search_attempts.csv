@@ -1,0 +1,13 @@
+provider,target_type,status,records,candidates,error,interpretation
+github,spring,failed,,,HTTP 401 Unauthorized,GitHub code search requires a token; other channels continued
+github,fluid_power,failed,,,HTTP 401 Unauthorized,GitHub code search requires a token; other channels continued
+github,cutting_tool,failed,,,HTTP 401 Unauthorized,GitHub code search requires a token; other channels continued
+github,seal_gasket,failed,,,HTTP 401 Unauthorized,GitHub code search requires a token; other channels continued
+zenodo,spring,completed,,0,,No direct STEP result in this bounded query
+zenodo,fluid_power,completed,,0,,No direct STEP result in this bounded query
+mendeley,spring,completed,0,0,,No DOI-indexed Mendeley CAD result in this bounded query
+mendeley,seal_gasket,completed,5,0,,Five records inspected; no relevant STEP file passed the entity gate
+mendeley,fluid_power,completed,8,6,,Six STEP components found; all rejected from auto-staging for low assembly evidence
+zenodo,seal_gasket,completed,,0,,No direct STEP result in this bounded query
+mendeley,cutting_tool,completed,6,0,,Six records inspected; PCB drill/cutting text was rejected as a semantic false positive
+zenodo,cutting_tool,failed,,,hard deadline exceeded 30 seconds,Timed out explicitly; no silent substitution

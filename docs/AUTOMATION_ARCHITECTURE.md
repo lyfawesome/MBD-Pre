@@ -30,7 +30,7 @@
 ```text
 数据闭环
 本地语料 → STEP PRODUCT 名称 + 几何覆盖签名 → 覆盖不足类型
-        → GitHub/Zenodo 定向搜索 → 许可/大小/格式门禁
+        → DataCite/Zenodo/Mendeley/GitHub 定向搜索 → 元数据预判 → 许可/大小/格式门禁
         → 下载与哈希 → OCCT 多 Solid 准入 → 新语料/明确缺口
 
 算法闭环
@@ -52,7 +52,7 @@
 
 ## 5. 联网发现与准入
 
-发现适配器当前支持 Zenodo 和 GitHub：
+发现适配器当前支持 Zenodo、Mendeley 和 GitHub；DataCite 是 Mendeley 的跨仓库检索入口：
 
 - 只针对 `coverage_gaps` 搜索，避免重复堆积机器人和 3D 打印机数据；
 - 每次查询、失败、认证状态和候选数均写入审计日志；
@@ -60,6 +60,8 @@
 - GitHub 代码搜索需要通过环境变量 `GITHUB_TOKEN` 提供只读令牌；未配置时明确记录认证缺口，令牌不会写入日志或仓库；
 - 未知许可、网页模型、压缩包和需要登录的来源进入人工队列，不会被静默替代；
 - 下载后仍必须通过哈希归档、STEP 文件头、OCCT 回读和最少 Solid 数门禁。
+
+在完整下载前，`prescreen` 使用页面类别、说明、文件名、BOM/parts list、数量词、匿名目录树和有限 HTTP 范围读取，估计制造业领域、工程器件类型及装配置信度。它只能决定是否值得下载，不能充当几何分类真值。详细流程见 `docs/METADATA_PRESCREEN_ARCHITECTURE.md`。
 
 暂存不等于录用。每个周期最多录用配置规定的数量，防止一次搜索耗尽磁盘与布尔计算预算。
 

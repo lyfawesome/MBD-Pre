@@ -73,8 +73,9 @@ def command_plan(args) -> int:
         "config": str(config.path),
         "stages": [
             "coverage: extract STEP PRODUCT-name and geometry-signature gaps",
-            "discover: query configured providers only for missing semantic types",
-            "stage: enforce license, extension and file-size policy",
+            "discover: query configured DOI/repository providers only for missing semantic types",
+            "prescreen: estimate sector, components and assembly confidence from metadata/file trees",
+            "stage: enforce assembly evidence, license, extension and file-size policy",
             "acquire/inspect: hash raw files and require valid multi-solid STEP",
             "classify: candidate clustering followed by independent Boolean verification",
             "optimize: minimize candidate-pair workload subject to final-pair recall",

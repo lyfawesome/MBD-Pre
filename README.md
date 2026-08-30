@@ -51,16 +51,17 @@ python .\step_geometry_encoder.py "C:\Users\LENOVO\Desktop\motor.STEP" --output 
 
 ## 持续数据与算法迭代
 
-`iteration_engine` 把一次性脚本组织成两个有门禁的闭环：一条根据 STEP 产品名称和几何覆盖签名寻找覆盖不足的实体类型，再从 GitHub/Zenodo 定向发现许可明确的装配；另一条在固定 Boolean-final 基准上比较候选阈值的精确组召回和计算工作量，并通过稳定性与人工置信区间决定是否允许晋级。
+`iteration_engine` 把一次性脚本组织成两个有门禁的闭环：一条根据 STEP 产品名称和几何覆盖签名寻找覆盖不足的实体类型，再从 DataCite、Zenodo、Mendeley 和 GitHub 定向发现许可明确的装配；另一条在固定 Boolean-final 基准上比较候选阈值的精确组召回和计算工作量，并通过稳定性与人工置信区间决定是否允许晋级。
 
 ```bash
 python3 -m iteration_engine.cli plan
 python3 -m iteration_engine.cli cycle --offline
 python3 -m iteration_engine.cli discover
 python3 -m iteration_engine.cli cycle --acquire --classify
+python3 scripts/prescreen_sources.py --reuse-probes
 ```
 
-联网发现、下载和长时间分类必须显式启动。未知许可模型不会自动录用，缺少人工标签时算法候选不会自动晋级。架构、自动化成熟度与跨电脑接管步骤见 [docs/AUTOMATION_ARCHITECTURE.md](docs/AUTOMATION_ARCHITECTURE.md)。
+联网发现、下载和长时间分类必须显式启动。元数据预判先估计制造业领域、工程器件和装配置信度；未知许可或低装配证据模型不会自动录用，缺少人工标签时算法候选不会自动晋级。整体架构见 [docs/AUTOMATION_ARCHITECTURE.md](docs/AUTOMATION_ARCHITECTURE.md)，下载前筛选细节见 [docs/METADATA_PRESCREEN_ARCHITECTURE.md](docs/METADATA_PRESCREEN_ARCHITECTURE.md)。
 
 ## 可审计输出
 

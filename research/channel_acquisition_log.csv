@@ -1,0 +1,10 @@
+﻿id,provider,probe_status,http_status,final_url,total_bytes,bytes_sampled,step_header,product_count,assembly_occurrence_count,solid_marker_count,archive_entry_count_sampled,step_entry_count,error
+mendeley_fff_printer,mendeley,verified,206,https://prod-dcd-datasets-public-files-eu-west-1.s3.eu-west-1.amazonaws.com/b1137ded-2515-4fdc-b4ee-3fecf4dda546,106602778,2097152,True,141,0,3,,,
+zenodo_generated_reassembly,zenodo,verified,206,https://zenodo.org/records/7628235/files/generated-reassembly-dataset.zip?download=1,334608635,2091224,,,,,605,129,
+zenodo_lbnl_raft_robot,zenodo,verified,206,https://zenodo.org/records/10688571/files/DE-1000-0318_Raft_Assembly_2024-02-21.STEP?download=1,79810491,2097152,True,1,285,0,,,
+zenodo_mk4_prosthetic_hand,zenodo,verified,206,https://zenodo.org/records/21489522/files/Assembled%20prosthesis.STEP?download=1,65422269,2079396,True,0,0,4,,,
+zenodo_cadog_eval,zenodo,verified,206,https://zenodo.org/records/17644971/files/cadog-evaluation-data-zenodo-v1.0.2.zip?download=1,1021999664,2073612,,,,,145,9,
+zenodo_allstruder,zenodo,verified,206,https://zenodo.org/records/21359888/files/Allstruder%20Assembly.STEP?download=1,32358000,2064708,True,0,0,18,,,
+steptools_as1_ac,steptools,verified,206,https://steptools.com/docs/stpfiles/ap214/as1-ac-214.stp,83424,83424,True,9,13,5,,,
+steptools_as1_ec,steptools,verified,206,https://steptools.com/docs/stpfiles/ap214/as1-ec-214.stp,435038,435038,True,9,13,5,,,
+steptools_as1_ug,steptools,verified,206,https://steptools.com/docs/stpfiles/ap214/as1-ug-214.stp,73325,73325,True,9,13,5,,,

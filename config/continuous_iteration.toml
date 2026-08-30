@@ -1,7 +1,7 @@
 schema_version = 1
 
 [discovery]
-providers = ["zenodo", "github"]
+providers = ["zenodo", "mendeley", "github"]
 results_per_query = 10
 max_missing_types_per_cycle = 4
 maximum_file_bytes = 524288000

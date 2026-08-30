@@ -2,6 +2,8 @@
 
 This directory turns the external-assembly experiment into a reproducible workflow. Generated CSV files are local audit artifacts and are excluded from Git because they contain machine-specific paths; the source manifest, scripts, protocol and selection audit remain versionable.
 
+The remote-source layer also keeps a versioned non-Git channel catalog and metadata-first candidate set. Run `python3 scripts/prescreen_sources.py --reuse-probes` to rebuild sector, engineering-domain, likely-component and assembly-confidence statistics without downloading any complete CAD model. Use `--probe` only when bounded HTTP range reads are desired.
+
 ## Reproduce
 
 From the repository root:
