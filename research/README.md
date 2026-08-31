@@ -9,17 +9,14 @@ The remote-source layer also keeps a versioned non-Git channel catalog and metad
 From the repository root:
 
 ```bash
-python3 scripts/acquire_assembly_data.py --workers 16 --retries 5
-python3 scripts/inspect_step_assemblies.py --workers 2 --minimum-solids 10
-python3 scripts/run_assembly_corpus.py --precision-mode boolean --precision-workers 8 --skip-step-export
-python3 scripts/evaluate_stability.py --order-trials 10
-python3 scripts/evaluate_rigid_invariance.py
-python3 scripts/build_human_review.py
-python3 scripts/build_research_audit.py
-python3 scripts/summarize_corpus.py
+conda env create -f environment.yml
+conda activate mbd-pre
+./scripts/run_reproduce.sh full
 ```
 
-The downloader resumes `.part` files and verifies size, STEP header and SHA-256. The inspection stage rejects isolated or undersized models. The normalizer imports each source once and writes both reviewable per-part STEP and exact OCCT-native B-Rep caches. Boolean checks load the two small native shapes, process four candidate pairs per batch, and recursively split a failed batch until only the pathological pair is isolated. Each finished leaf batch is atomically checkpointed. Checkpoint schema 2 records the precision-algorithm revision; migration from schema 1 keeps completed `verified`/`different` Boolean evidence but deliberately re-evaluates unresolved alignment or Boolean failures. `--skip-step-export` keeps all classification and per-part review artifacts while avoiding a redundant grouped-STEP rewrite for the large corpus. Omit it when grouped STEP deliverables are required; an export failure is then preserved separately from a successful classification.
+The individual commands remain visible in `scripts/run_reproduce.sh`. Worker counts can be overridden with `MBD_DOWNLOAD_WORKERS`, `MBD_INSPECTION_WORKERS` and `MBD_PRECISION_WORKERS`.
+
+Every core source in `assembly_sources.json` is locked by an immutable Git commit, byte count and SHA-256; all 29 core URLs were rechecked successfully. The quarantined `xt1` lead remains unavailable and license-unknown, so it is never acquired automatically. The downloader uses the immutable commit rather than the descriptive branch name, resumes `.part` files and verifies size, STEP header and SHA-256. The inspection stage rejects isolated or undersized models. The normalizer imports each source once and writes both reviewable per-part STEP and exact OCCT-native B-Rep caches. Boolean checks load the two small native shapes and process four candidate pairs per batch. If a batch fails or times out, its pairs are retried independently as singletons in the shared worker pool, so pathological B-Reps cannot serialize unrelated fallback checks. Each finished batch or singleton is atomically checkpointed. Checkpoint schema 2 records the precision-algorithm revision; migration from schema 1 keeps completed `verified`/`different` Boolean evidence but deliberately re-evaluates unresolved alignment or Boolean failures. `--skip-step-export` keeps all classification and per-part review artifacts while avoiding a redundant grouped-STEP rewrite for the large corpus. Omit it when grouped STEP deliverables are required; an export failure is then preserved separately from a successful classification.
 
 The review renderer needs the optional dependencies declared in `pyproject.toml`; install them with `pip install -e '.[review]'`. All commands and manifests use repository-relative defaults. Downloaded models, run directories and machine-specific reports are deliberately ignored by Git and can be regenerated from `assembly_sources.json`.
 

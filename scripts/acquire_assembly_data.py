@@ -41,11 +41,12 @@ def source_url(source: dict) -> str:
     if source.get("download_url"):
         return source["download_url"]
     path = urllib.parse.quote(source["path"], safe="/")
+    immutable_ref = source.get("source_commit", source["ref"])
     if source.get("transport") == "github_media":
         host = "https://media.githubusercontent.com/media"
     else:
         host = "https://raw.githubusercontent.com"
-    return f"{host}/{source['owner']}/{source['repo']}/{source['ref']}/{path}"
+    return f"{host}/{source['owner']}/{source['repo']}/{immutable_ref}/{path}"
 
 
 def extension(source: dict) -> str:
@@ -187,7 +188,7 @@ def download_one(source: dict, output_dir: Path, retries: int, segments: int) ->
 def write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows({field: row.get(field, "") for field in fields} for row in rows)
 

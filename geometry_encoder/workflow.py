@@ -438,7 +438,7 @@ class GeometryWorkflow:
             "precision_verification": config.precision_mode,
             "precision_vertex_tolerance": config.vertex_tolerance,
             "boolean_relative_tolerance": config.boolean_relative_tolerance,
-            "boolean_batching": "groups of four with recursive failure isolation",
+            "boolean_batching": "groups of four with globally scheduled singleton failure isolation",
             "precision_checkpoint": "after every completed Boolean leaf batch",
             "precision_algorithm_revision": PRECISION_ALGORITHM_REVISION,
         }, ensure_ascii=False, indent=2), encoding="utf-8")

@@ -10,7 +10,7 @@ Admit openly downloadable STEP assemblies with an explicit reusable license and 
 - Quarantined candidates: 1
 - Downloaded or verified: 29
 - Structurally admitted: 28
-- Classified: 22
+- Classified: 25
 
 ## Explicit exclusions and deferrals
 

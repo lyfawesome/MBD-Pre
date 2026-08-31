@@ -22,7 +22,7 @@ def load_csv(path: Path, key: str) -> dict[str, dict]:
 
 def write_csv(path: Path, rows: list[dict], fields: list[str]) -> None:
     with path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows({field: row.get(field, "") for field in fields} for row in rows)
 
@@ -31,7 +31,8 @@ def url(source: dict) -> str:
     path = urllib.parse.quote(source["path"], safe="/")
     host = ("https://media.githubusercontent.com/media" if source.get("transport") == "github_media"
             else "https://raw.githubusercontent.com")
-    return f"{host}/{source['owner']}/{source['repo']}/{source['ref']}/{path}"
+    immutable_ref = source.get("source_commit", source["ref"])
+    return f"{host}/{source['owner']}/{source['repo']}/{immutable_ref}/{path}"
 
 
 def rebuild_run_index() -> None:
@@ -88,7 +89,10 @@ def main() -> int:
         catalog.append({
             "id": source["id"], "title": source["title"], "repository": f"{source['owner']}/{source['repo']}",
             "source_url": url(source), "format": "STEP", "license": source["license"],
-            "tier": source["tier"], "expected_bytes": source["expected_bytes"],
+            "tier": source["tier"], "source_branch": source["ref"],
+            "source_commit": source.get("source_commit", ""),
+            "expected_bytes": source["expected_bytes"],
+            "expected_sha256": source.get("expected_sha256", ""),
             "acquisition_status": acquired.get("status", "pending"),
             "sha256": acquired.get("sha256", ""), "solid_count": checked.get("solids", ""),
             "inspection_status": checked.get("status", "pending"),
@@ -102,7 +106,8 @@ def main() -> int:
         })
     write_csv(RESEARCH / "source_catalog.csv", catalog,
               ["id", "title", "repository", "source_url", "format", "license", "tier",
-               "expected_bytes", "acquisition_status", "sha256", "solid_count", "inspection_status",
+               "source_branch", "source_commit", "expected_bytes", "expected_sha256",
+               "acquisition_status", "sha256", "solid_count", "inspection_status",
                "classification_status", "final_group_count", "multi_member_groups",
                "solids_in_multi_member_groups", "unresolved_pairs", "selection_reason"])
 

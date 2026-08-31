@@ -4,10 +4,19 @@
 
 ## 环境
 
-- Python 3.11+，运行时仅使用标准库。
+- 推荐使用仓库内的 `environment.yml` 创建独立 Conda 环境，其中锁定 Python 3.11 和 OCCT 7.9.3。
 - Open CASCADE `DRAWEXE`：程序会搜索 PATH 和 `C:\msys64\ucrt64\bin\DRAWEXE.exe`，也可用 `--drawexe` 指定。
 
 本机验收环境为 Python 3.14.5、Open CASCADE 7.9.3。
+
+```bash
+conda env create -f environment.yml
+conda activate mbd-pre
+./scripts/run_reproduce.sh test
+./scripts/run_reproduce.sh sample
+```
+
+`test` 验证代码和 OCCT；`sample` 复现仓库内的 84-Solid 示例；`full` 会下载锁定语料并执行完整的长时间评估流水线。
 
 ## 运行
 
@@ -83,10 +92,10 @@ python -m unittest -v
 
 ## motor.STEP 发布验收
 
-- 84 个 Solid，18 个候选组，经 71 条迭代精确关系复核后得到 21 个分组。
+- 84 个 Solid，18 个候选组，经 72 条迭代精确关系复核后得到 20 个分组。
 - 原第 2/3 组的 18 个视觉相同件通过刚体与双向布尔复核，保持在同一组。
-- 一个 38 件的候选组被精确分成 32、5、1 件三类；零件 75/76 因无法由正旋转+平移建立全拓扑对应而分开。
-- 21 个分组 STEP 全部回读合法，实际 Solid 合计 84，最大体积相对误差为 `3.66×10⁻⁸`。
+- 一个 38 件的候选组被精确分成 31 和 7 件两类；零件 75/76 因无法由正旋转+平移建立全拓扑对应而分开。
+- 20 个分组 STEP 全部回读合法，实际 Solid 合计 84，最大体积相对误差为 `3.66×10⁻⁸`。
 - 6 个质量门禁全部通过；并行布尔精确阶段耗时约 326 秒。
 
 ## 外部装配语料与人工复核

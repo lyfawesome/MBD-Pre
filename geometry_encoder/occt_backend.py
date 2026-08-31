@@ -355,20 +355,11 @@ def verify_rigid_pairs_with_boolean(
     if normalized_dir is None:
         batches = [aligned[offset::worker_count] for offset in range(worker_count)]
     else:
-        # Amortize the expensive assembly import, then recursively isolate a batch
-        # if a pathological B-Rep fails or times out. Only the failing singleton is
-        # conservatively rejected; successful siblings retain their exact evidence.
+        # Amortize process startup for the fast path. A failed batch is retried as
+        # independent singletons in the shared worker pool, so pathological B-Reps
+        # cannot serialize the other fallback checks.
         batch_size = 4
         batches = [aligned[offset:offset + batch_size] for offset in range(0, len(aligned), batch_size)]
-
-    def run_resilient(batch: list) -> list[tuple[list, str | None, str | None]]:
-        try:
-            return [(batch, run_batch(batch), None)]
-        except Exception as exc:
-            if len(batch) == 1:
-                return [(batch, None, f"{type(exc).__name__}: {exc}"[-1000:])]
-            middle = len(batch) // 2
-            return run_resilient(batch[:middle]) + run_resilient(batch[middle:])
 
     def apply_batch_result(batch: list, output: str | None, error: str | None) -> None:
         if error is not None or output is None:
@@ -406,8 +397,21 @@ def verify_rigid_pairs_with_boolean(
             result_callback(batch)
 
     with ThreadPoolExecutor(max_workers=worker_count, thread_name_prefix="occt_boolean") as executor:
-        futures = [executor.submit(run_resilient, batch) for batch in batches]
-        for future in as_completed(futures):
-            for batch, output, error in future.result():
-                apply_batch_result(batch, output, error)
+        pending = {executor.submit(run_batch, batch): batch for batch in batches}
+        while pending:
+            current = list(pending)
+            for future in as_completed(current):
+                batch = pending.pop(future)
+                try:
+                    output = future.result()
+                except Exception as exc:
+                    if len(batch) == 1:
+                        error = f"{type(exc).__name__}: {exc}"[-1000:]
+                        apply_batch_result(batch, None, error)
+                    else:
+                        for item in batch:
+                            singleton = [item]
+                            pending[executor.submit(run_batch, singleton)] = singleton
+                else:
+                    apply_batch_result(batch, output, None)
     return verifications

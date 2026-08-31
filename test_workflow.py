@@ -5,10 +5,15 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from geometry_encoder.config import WorkflowConfig
-from geometry_encoder.occt_backend import _run_draw, _tcl_path, find_drawexe
-from geometry_encoder.precision import _axis_angle, find_rigid_transform
+from geometry_encoder.occt_backend import (
+    _run_draw, _tcl_path, find_drawexe, verify_rigid_pairs_with_boolean,
+)
+from geometry_encoder.precision import (
+    PairVerification, RigidTransform, _axis_angle, find_rigid_transform,
+)
 from geometry_encoder.telemetry import WorkflowRecorder
 from geometry_encoder.workflow import (
     GeometryWorkflow, _precision_checkpoint, _restore_precision_result,
@@ -17,6 +22,36 @@ from geometry_encoder.workflow import (
 
 
 class PrecisionUnitTest(unittest.TestCase):
+    def test_failed_boolean_batch_retries_singletons_in_shared_pool(self):
+        identity = RigidTransform(
+            rotation=((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)),
+            translation=(0.0, 0.0, 0.0), axis=(1.0, 0.0, 0.0), angle_degrees=0.0,
+            rms_vertex_error=0.0, max_vertex_error=0.0,
+        )
+        pairs = [PairVerification(1, 1, index, "aligned", "", 8, identity)
+                 for index in range(2, 6)]
+        attempted_batch_sizes = []
+        checkpoint_sizes = []
+
+        def fake_draw(_drawexe, script, timeout=3600):
+            batch_size = script.count("@@FORWARD_BEGIN")
+            attempted_batch_sizes.append(batch_size)
+            if batch_size > 1:
+                raise TimeoutError("synthetic batch timeout")
+            return "@@FORWARD_BEGIN 1\nMass : 0\n@@FORWARD_END 1\n" \
+                   "@@REVERSE_BEGIN 1\nMass : 0\n@@REVERSE_END 1\n"
+
+        with patch("geometry_encoder.occt_backend._run_draw", side_effect=fake_draw):
+            verify_rigid_pairs_with_boolean(
+                Path("source.step"), pairs, {index: 1.0 for index in range(1, 6)},
+                Path("DRAWEXE"), workers=2, normalized_dir=Path("cache"),
+                result_callback=lambda completed: checkpoint_sizes.append(len(completed)),
+            )
+
+        self.assertEqual(sorted(attempted_batch_sizes), [1, 1, 1, 1, 4])
+        self.assertEqual(checkpoint_sizes, [1, 1, 1, 1])
+        self.assertTrue(all(pair.status == "verified" and pair.passed for pair in pairs))
+
     def test_axis_angle_is_stable_near_180_degrees(self):
         axis = (0.5355737329905428, 0.8444884703360814, -2.0e-12)
         norm = math.sqrt(sum(value * value for value in axis))

@@ -12,6 +12,10 @@ from iteration_engine.discovery import _decision, _semantic_hits, discover
 from iteration_engine.gates import evaluate_gates
 from iteration_engine.prescreen import prescreen_candidate
 from iteration_engine.remote_probe import _step_counts
+from scripts.acquire_assembly_data import source_url
+
+
+ROOT = Path(__file__).resolve().parent
 
 
 class CoverageTest(unittest.TestCase):
@@ -63,6 +67,19 @@ class DiscoveryPolicyTest(unittest.TestCase):
     def test_semantic_hits_do_not_use_substring_false_positives(self):
         self.assertEqual(_semantic_hits("laser cutting process", ["cutter"]), set())
         self.assertEqual(_semantic_hits("end mill tool holder", ["end mill"]), {"end mill"})
+
+
+class CorpusManifestTest(unittest.TestCase):
+    def test_all_sources_are_immutable_and_hash_locked(self):
+        manifest = json.loads((ROOT / "research" / "assembly_sources.json").read_text())
+        self.assertEqual(len(manifest["sources"]), 30)
+        self.assertEqual(sum(source["tier"] == "core" for source in manifest["sources"]), 29)
+        for source in manifest["sources"]:
+            self.assertEqual(len(source["source_commit"]), 40)
+            self.assertEqual(len(source["expected_sha256"]), 64)
+            int(source["source_commit"], 16)
+            int(source["expected_sha256"], 16)
+            self.assertIn(source["source_commit"], source_url(source))
 
 
 class PrescreenTest(unittest.TestCase):
