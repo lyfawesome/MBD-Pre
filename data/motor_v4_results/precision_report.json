@@ -67,9 +67,14 @@
       18
     ]
   },
-  "checked_pair_count": 71,
+  "checked_pair_count": 74,
   "passed_pair_count": 63,
-  "failed_or_split_pair_count": 8,
+  "verified_different_pair_count": 10,
+  "alignment_failed_pair_count": 1,
+  "boolean_failed_pair_count": 0,
+  "unresolved_pair_count": 1,
+  "checkpoint_reused_pair_count": 0,
+  "failed_or_split_pair_count": 11,
   "pairs": [
     {
       "group": 2,
@@ -999,8 +1004,8 @@
       "group": 4,
       "reference_part": 21,
       "candidate_part": 27,
-      "status": "verified",
-      "reason": "Rigid congruence and bidirectional Boolean difference passed",
+      "status": "different",
+      "reason": "Bidirectional Boolean difference exceeds tolerance",
       "vertex_count": 218,
       "transform": {
         "rotation": [
@@ -1035,9 +1040,9 @@
         "max_vertex_error": 1.725357098043875e-10
       },
       "forward_difference_volume": 0.0,
-      "reverse_difference_volume": 1.4675205495251475e-12,
-      "boolean_relative_error": 3.2791772139943e-14,
-      "passed": true
+      "reverse_difference_volume": 44.75270635762981,
+      "boolean_relative_error": 1.0000000000000187,
+      "passed": false
     },
     {
       "group": 4,
@@ -1167,8 +1172,8 @@
         "max_vertex_error": 1.7314905355221167e-10
       },
       "forward_difference_volume": 0.0,
-      "reverse_difference_volume": 44.75270635762825,
-      "boolean_relative_error": 0.9999999999999838,
+      "reverse_difference_volume": 44.752706357628256,
+      "boolean_relative_error": 0.999999999999984,
       "passed": false
     },
     {
@@ -1254,9 +1259,9 @@
         "rms_vertex_error": 5.6564051884542294e-11,
         "max_vertex_error": 1.2886370569315018e-10
       },
-      "forward_difference_volume": 44.75270635762827,
-      "reverse_difference_volume": 44.752706357628846,
-      "boolean_relative_error": 0.9999999999999967,
+      "forward_difference_volume": 44.75270635762825,
+      "reverse_difference_volume": 44.75270635762875,
+      "boolean_relative_error": 0.9999999999999946,
       "passed": false
     },
     {
@@ -1342,17 +1347,17 @@
         "rms_vertex_error": 6.510014691130737e-11,
         "max_vertex_error": 1.4834655860215934e-10
       },
-      "forward_difference_volume": 44.75270635762842,
-      "reverse_difference_volume": 44.75270635763054,
-      "boolean_relative_error": 1.0000000000000349,
+      "forward_difference_volume": 44.75270635762838,
+      "reverse_difference_volume": 0.0,
+      "boolean_relative_error": 0.9999999999999867,
       "passed": false
     },
     {
       "group": 4,
       "reference_part": 21,
       "candidate_part": 35,
-      "status": "verified",
-      "reason": "Rigid congruence and bidirectional Boolean difference passed",
+      "status": "different",
+      "reason": "Bidirectional Boolean difference exceeds tolerance",
       "vertex_count": 218,
       "transform": {
         "rotation": [
@@ -1387,9 +1392,9 @@
         "max_vertex_error": 1.494267007607711e-10
       },
       "forward_difference_volume": 0.0,
-      "reverse_difference_volume": 0.0,
-      "boolean_relative_error": 0.0,
-      "passed": true
+      "reverse_difference_volume": 44.75270635762964,
+      "boolean_relative_error": 1.00000000000001,
+      "passed": false
     },
     {
       "group": 4,
@@ -1518,9 +1523,9 @@
         "rms_vertex_error": 8.139669780895533e-11,
         "max_vertex_error": 1.7402952585805815e-10
       },
-      "forward_difference_volume": 44.75270635762871,
-      "reverse_difference_volume": 44.75270635762874,
-      "boolean_relative_error": 0.9999999999999948,
+      "forward_difference_volume": 44.752706357628725,
+      "reverse_difference_volume": 6.62989628474886e-16,
+      "boolean_relative_error": 0.9999999999999944,
       "passed": false
     },
     {
@@ -1782,9 +1787,9 @@
         "rms_vertex_error": 8.015531522925644e-11,
         "max_vertex_error": 1.6859132338277724e-10
       },
-      "forward_difference_volume": 44.75270635762845,
-      "reverse_difference_volume": 1.2131680209026552e-15,
-      "boolean_relative_error": 0.9999999999999882,
+      "forward_difference_volume": 44.752706357628384,
+      "reverse_difference_volume": 44.75270635762857,
+      "boolean_relative_error": 0.9999999999999909,
       "passed": false
     },
     {
@@ -1871,8 +1876,8 @@
         "max_vertex_error": 1.725357098043875e-10
       },
       "forward_difference_volume": 0.0,
-      "reverse_difference_volume": 1.4728496200433483e-12,
-      "boolean_relative_error": 3.29108503131291e-14,
+      "reverse_difference_volume": 1.4726275754384233e-12,
+      "boolean_relative_error": 3.2905888722579674e-14,
       "passed": true
     },
     {
@@ -2178,17 +2183,17 @@
         "rms_vertex_error": 6.545008436714715e-11,
         "max_vertex_error": 1.4834655860215934e-10
       },
-      "forward_difference_volume": 44.75270635762943,
-      "reverse_difference_volume": 0.0,
-      "boolean_relative_error": 1.0000000000000102,
+      "forward_difference_volume": 44.75270635762841,
+      "reverse_difference_volume": 1.201594379551807e-12,
+      "boolean_relative_error": 0.9999999999999875,
       "passed": false
     },
     {
       "group": 4,
       "reference_part": 21,
       "candidate_part": 54,
-      "status": "verified",
-      "reason": "Rigid congruence and bidirectional Boolean difference passed",
+      "status": "different",
+      "reason": "Bidirectional Boolean difference exceeds tolerance",
       "vertex_count": 218,
       "transform": {
         "rotation": [
@@ -2223,9 +2228,9 @@
         "max_vertex_error": 1.5401324173389914e-10
       },
       "forward_difference_volume": 0.0,
-      "reverse_difference_volume": 0.0,
-      "boolean_relative_error": 0.0,
-      "passed": true
+      "reverse_difference_volume": 44.752706357629535,
+      "boolean_relative_error": 1.0000000000000098,
+      "passed": false
     },
     {
       "group": 4,
@@ -2449,51 +2454,95 @@
     },
     {
       "group": 4,
-      "reference_part": 30,
-      "candidate_part": 32,
+      "reference_part": 27,
+      "candidate_part": 30,
       "status": "different",
       "reason": "Bidirectional Boolean difference exceeds tolerance",
       "vertex_count": 218,
       "transform": {
         "rotation": [
           [
-            0.9458172416991697,
-            0.3246994692089511,
-            -4.991783028596153e-12
+            0.879473751213347,
+            0.4759473930244017,
+            7.671863144764757e-12
           ],
           [
-            -0.3246994692089511,
-            0.9458172416991698,
-            -1.0051407189209938e-11
+            -0.47594739302440164,
+            0.8794737512133469,
+            2.9200392104300477e-12
           ],
           [
-            1.4577922202718696e-12,
-            1.1127682109091097e-11,
-            1.0000000000000002
+            -5.357284060814038e-12,
+            -6.219566528464782e-12,
+            0.9999999999999999
           ]
         ],
         "translation": [
-          5.928768587182276e-11,
-          3.2521541015739786e-11,
-          3.175237850427948e-11
+          4.515499085755437e-12,
+          -3.6428815519684576e-10,
+          2.007283228522283e-10
         ],
         "axis": [
-          3.261337222062386e-11,
-          -9.93160731765407e-12,
+          -9.601487341717874e-12,
+          1.3687591734440695e-11,
           -1.0
         ],
-        "angle_degrees": 18.94736842131115,
-        "rms_vertex_error": 8.521459643374804e-11,
-        "max_vertex_error": 1.7318650016499753e-10
+        "angle_degrees": 28.4210526307534,
+        "rms_vertex_error": 8.655924693534179e-11,
+        "max_vertex_error": 2.0220462922968974e-10
       },
-      "forward_difference_volume": 44.75270635762851,
-      "reverse_difference_volume": 44.752706357628384,
-      "boolean_relative_error": 0.9999999999999892,
+      "forward_difference_volume": 44.75270635762983,
+      "reverse_difference_volume": 0.0,
+      "boolean_relative_error": 1.000000000000025,
       "passed": false
     },
     {
       "group": 4,
-      "reference_part": 30,
+      "reference_part": 27,
+      "candidate_part": 32,
+      "status": "verified",
+      "reason": "Rigid congruence and bidirectional Boolean difference passed",
+      "vertex_count": 218,
+      "transform": {
+        "rotation": [
+          [
+            0.6772815716319357,
+            0.7357239106674293,
+            4.848996204565026e-12
+          ],
+          [
+            -0.7357239106674291,
+            0.6772815716319357,
+            2.5378622814375973e-12
+          ],
+          [
+            -1.4168666240266248e-12,
+            -5.286451831842953e-12,
+            1.0
+          ]
+        ],
+        "translation": [
+          -6.716405209772347e-11,
+          -2.0399681943672476e-10,
+          7.474554308828374e-11
+        ],
+        "axis": [
+          -5.317425463434063e-12,
+          4.2582976696431045e-12,
+          -1.0
+        ],
+        "angle_degrees": 47.36842105214916,
+        "rms_vertex_error": 7.392150464643391e-11,
+        "max_vertex_error": 1.667702389017153e-10
+      },
+      "forward_difference_volume": 0.0,
+      "reverse_difference_volume": 0.0,
+      "boolean_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "group": 4,
+      "reference_part": 27,
       "candidate_part": 34,
       "status": "verified",
       "reason": "Rigid congruence and bidirectional Boolean difference passed",
@@ -2501,34 +2550,34 @@
       "transform": {
         "rotation": [
           [
-            0.789140509395023,
-            0.6142127126914286,
-            -7.554613185023484e-12
+            0.4016954246484437,
+            0.9157733266570427,
+            9.079577367732128e-13
           ],
           [
-            -0.6142127126914287,
-            0.7891405093950232,
-            -7.079552222233332e-12
+            -0.9157733266570427,
+            0.4016954246484437,
+            1.6729846674667925e-13
           ],
           [
-            1.61348712168774e-12,
-            1.0226999802576131e-11,
-            1.0000000000000002
+            -2.11372586100822e-13,
+            -8.987532940096798e-13,
+            1.0
           ]
         ],
         "translation": [
-          -8.419931418757187e-13,
-          -5.481837206389173e-11,
-          2.0868640149274142e-11
+          1.390922932387184e-10,
+          7.221601094897778e-11,
+          1.1805667554654065e-11
         ],
         "axis": [
-          1.4088402655306173e-11,
-          -7.463294162813218e-12,
+          -5.820500170319962e-13,
+          6.111394000522272e-13,
           -1.0
         ],
-        "angle_degrees": 37.89473684223311,
-        "rms_vertex_error": 8.135150451865108e-11,
-        "max_vertex_error": 1.7870809871412808e-10
+        "angle_degrees": 66.31578947396738,
+        "rms_vertex_error": 5.829426310775472e-11,
+        "max_vertex_error": 1.255882123675581e-10
       },
       "forward_difference_volume": 0.0,
       "reverse_difference_volume": 0.0,
@@ -2537,7 +2586,51 @@
     },
     {
       "group": 4,
-      "reference_part": 30,
+      "reference_part": 27,
+      "candidate_part": 35,
+      "status": "verified",
+      "reason": "Rigid congruence and bidirectional Boolean difference passed",
+      "vertex_count": 218,
+      "transform": {
+        "rotation": [
+          [
+            0.2454854871362567,
+            0.9694002659404809,
+            9.12957209830978e-12
+          ],
+          [
+            -0.9694002659404808,
+            0.24548548713625667,
+            -2.0062215777549852e-12
+          ],
+          [
+            -4.1858946864259394e-12,
+            -8.357772807165986e-12,
+            1.0000000000000002
+          ]
+        ],
+        "translation": [
+          2.297468881806708e-10,
+          5.4928506187934545e-11,
+          1.7764811843790085e-10
+        ],
+        "axis": [
+          -3.2760209856394727e-12,
+          6.867888968349665e-12,
+          -1.0
+        ],
+        "angle_degrees": 75.789473684479,
+        "rms_vertex_error": 7.748897680359065e-11,
+        "max_vertex_error": 1.609358221948337e-10
+      },
+      "forward_difference_volume": 0.0,
+      "reverse_difference_volume": 0.0,
+      "boolean_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "group": 4,
+      "reference_part": 27,
       "candidate_part": 38,
       "status": "verified",
       "reason": "Rigid congruence and bidirectional Boolean difference passed",
@@ -2545,34 +2638,34 @@
       "transform": {
         "rotation": [
           [
-            0.2454854871347272,
-            0.9694002659408681,
-            -2.2028490143100043e-12
+            -0.2454854871401661,
+            0.9694002659394909,
+            1.3517381658445515e-12
           ],
           [
-            -0.969400265940868,
-            0.2454854871347275,
-            -1.2196632592775813e-12
+            -0.9694002659394908,
+            -0.24548548714016621,
+            1.006368599565377e-12
           ],
           [
-            -6.416117637186858e-13,
-            2.4348717486688543e-12,
+            1.3076276172974133e-12,
+            -1.0634548797128218e-12,
             1.0
           ]
         ],
         "translation": [
-          1.4823264837815486e-10,
-          -8.824940778140444e-12,
-          3.6129321756561694e-11
+          -1.0666356686783729e-11,
+          -3.0613733770223917e-11,
+          -3.3642422181401344e-11
         ],
         "axis": [
-          1.884946361346138e-12,
-          -8.052593471676186e-13,
+          -1.0675793849056955e-12,
+          2.275146299056802e-14,
           -1.0
         ],
-        "angle_degrees": 75.78947368456939,
-        "rms_vertex_error": 5.856318464813227e-11,
-        "max_vertex_error": 1.300673339235774e-10
+        "angle_degrees": 104.21052631575208,
+        "rms_vertex_error": 7.282432568993723e-11,
+        "max_vertex_error": 1.5155108346363524e-10
       },
       "forward_difference_volume": 0.0,
       "reverse_difference_volume": 0.0,
@@ -2581,7 +2674,7 @@
     },
     {
       "group": 4,
-      "reference_part": 30,
+      "reference_part": 27,
       "candidate_part": 44,
       "status": "verified",
       "reason": "Rigid congruence and bidirectional Boolean difference passed",
@@ -2589,34 +2682,34 @@
       "transform": {
         "rotation": [
           [
-            -0.6772815716330256,
-            0.7357239106664258,
-            -8.933090378526742e-12
+            -0.9458172417010621,
+            0.3246994692034388,
+            5.712074910291243e-12
           ],
           [
-            -0.7357239106664255,
-            -0.6772815716330256,
-            7.726444484212891e-12
+            -0.3246994692034389,
+            -0.9458172417010622,
+            -3.195553197055112e-12
           ],
           [
-            -3.6568664762981484e-13,
-            1.1805209587656407e-11,
-            1.0
+            4.365008354767497e-12,
+            -4.87709872487585e-12,
+            0.9999999999999999
           ]
         ],
         "translation": [
-          5.5990767577895895e-11,
-          -1.3916334751229442e-10,
-          9.177369975077454e-11
+          6.109956984801101e-11,
+          -7.866596263284009e-11,
+          -1.0440892594942852e-10
         ],
         "axis": [
-          2.7719785346187086e-12,
-          -5.822413601329024e-12,
+          -2.589421824695418e-12,
+          2.0743602608006833e-12,
           -1.0
         ],
-        "angle_degrees": 132.63157894793574,
-        "rms_vertex_error": 9.080447544843326e-11,
-        "max_vertex_error": 1.917677464770176e-10
+        "angle_degrees": 161.05263157902277,
+        "rms_vertex_error": 7.144325730872808e-11,
+        "max_vertex_error": 1.4561151837794674e-10
       },
       "forward_difference_volume": 0.0,
       "reverse_difference_volume": 0.0,
@@ -2625,7 +2718,7 @@
     },
     {
       "group": 4,
-      "reference_part": 30,
+      "reference_part": 27,
       "candidate_part": 53,
       "status": "verified",
       "reason": "Rigid congruence and bidirectional Boolean difference passed",
@@ -2633,34 +2726,78 @@
       "transform": {
         "rotation": [
           [
-            -0.789140509395023,
-            -0.6142127126914286,
-            7.554613185023484e-12
+            -0.4016954246484437,
+            -0.9157733266570427,
+            -9.079577367732128e-13
           ],
           [
-            0.6142127126914287,
-            -0.7891405093950232,
-            7.079552222233332e-12
+            0.9157733266570427,
+            -0.4016954246484437,
+            -1.6729846674667925e-13
           ],
           [
-            1.61348712168774e-12,
-            1.0226999802576131e-11,
-            1.0000000000000002
+            -2.11372586100822e-13,
+            -8.987532940096798e-13,
+            1.0
           ]
         ],
         "translation": [
-          8.419931418757187e-13,
-          5.481837206389173e-11,
-          2.0868640149274142e-11
+          -1.390922932387184e-10,
+          -7.221601094897778e-11,
+          1.1805667554654065e-11
         ],
         "axis": [
-          2.562152122364976e-12,
-          4.836554740650714e-12,
+          -3.993645621526879e-13,
+          -3.8032618465489666e-13,
           1.0
         ],
-        "angle_degrees": 142.10526315776687,
-        "rms_vertex_error": 8.220999918490521e-11,
-        "max_vertex_error": 1.5469829749617588e-10
+        "angle_degrees": 113.68421052603264,
+        "rms_vertex_error": 6.027860578567782e-11,
+        "max_vertex_error": 1.201451163362337e-10
+      },
+      "forward_difference_volume": 0.0,
+      "reverse_difference_volume": 0.0,
+      "boolean_relative_error": 0.0,
+      "passed": true
+    },
+    {
+      "group": 4,
+      "reference_part": 27,
+      "candidate_part": 54,
+      "status": "verified",
+      "reason": "Rigid congruence and bidirectional Boolean difference passed",
+      "vertex_count": 218,
+      "transform": {
+        "rotation": [
+          [
+            -0.24548548713458138,
+            -0.9694002659409052,
+            1.7522719386597885e-12
+          ],
+          [
+            0.9694002659409051,
+            -0.24548548713458124,
+            1.724113907197733e-12
+          ],
+          [
+            -1.241083624758943e-12,
+            2.121872122451407e-12,
+            0.9999999999999999
+          ]
+        ],
+        "translation": [
+          -1.2662759729664685e-10,
+          -8.179767974070273e-11,
+          2.531130860461417e-11
+        ],
+        "axis": [
+          2.0515685276174738e-13,
+          1.5439213648829384e-12,
+          1.0
+        ],
+        "angle_degrees": 104.21052631542197,
+        "rms_vertex_error": 6.038703643066726e-11,
+        "max_vertex_error": 1.278895012450999e-10
       },
       "forward_difference_volume": 0.0,
       "reverse_difference_volume": 0.0,

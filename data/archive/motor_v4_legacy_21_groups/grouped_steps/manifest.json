@@ -1,0 +1,384 @@
+{
+  "exports": [
+    {
+      "group": 1,
+      "solid_count": 1,
+      "file": "group_001_1_solids.step",
+      "bytes": 996537
+    },
+    {
+      "group": 2,
+      "solid_count": 18,
+      "file": "group_002_18_solids.step",
+      "bytes": 334548
+    },
+    {
+      "group": 3,
+      "solid_count": 1,
+      "file": "group_003_1_solids.step",
+      "bytes": 480026
+    },
+    {
+      "group": 4,
+      "solid_count": 32,
+      "file": "group_004_32_solids.step",
+      "bytes": 22498257
+    },
+    {
+      "group": 5,
+      "solid_count": 5,
+      "file": "group_005_5_solids.step",
+      "bytes": 3401436
+    },
+    {
+      "group": 6,
+      "solid_count": 1,
+      "file": "group_006_1_solids.step",
+      "bytes": 665608
+    },
+    {
+      "group": 7,
+      "solid_count": 1,
+      "file": "group_007_1_solids.step",
+      "bytes": 3549075
+    },
+    {
+      "group": 8,
+      "solid_count": 1,
+      "file": "group_008_1_solids.step",
+      "bytes": 410746
+    },
+    {
+      "group": 9,
+      "solid_count": 1,
+      "file": "group_009_1_solids.step",
+      "bytes": 1915247
+    },
+    {
+      "group": 10,
+      "solid_count": 1,
+      "file": "group_010_1_solids.step",
+      "bytes": 189765
+    },
+    {
+      "group": 11,
+      "solid_count": 1,
+      "file": "group_011_1_solids.step",
+      "bytes": 2259157
+    },
+    {
+      "group": 12,
+      "solid_count": 1,
+      "file": "group_012_1_solids.step",
+      "bytes": 1370067
+    },
+    {
+      "group": 13,
+      "solid_count": 3,
+      "file": "group_013_3_solids.step",
+      "bytes": 495073
+    },
+    {
+      "group": 14,
+      "solid_count": 1,
+      "file": "group_014_1_solids.step",
+      "bytes": 203082
+    },
+    {
+      "group": 15,
+      "solid_count": 3,
+      "file": "group_015_3_solids.step",
+      "bytes": 86977
+    },
+    {
+      "group": 16,
+      "solid_count": 1,
+      "file": "group_016_1_solids.step",
+      "bytes": 693491
+    },
+    {
+      "group": 17,
+      "solid_count": 1,
+      "file": "group_017_1_solids.step",
+      "bytes": 18139
+    },
+    {
+      "group": 18,
+      "solid_count": 1,
+      "file": "group_018_1_solids.step",
+      "bytes": 51516
+    },
+    {
+      "group": 19,
+      "solid_count": 1,
+      "file": "group_019_1_solids.step",
+      "bytes": 67430
+    },
+    {
+      "group": 20,
+      "solid_count": 1,
+      "file": "group_020_1_solids.step",
+      "bytes": 77574
+    },
+    {
+      "group": 21,
+      "solid_count": 8,
+      "file": "group_021_8_solids.step",
+      "bytes": 81322
+    }
+  ],
+  "validation": [
+    {
+      "file": "group_001_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 26782.655398985426,
+      "actual_volume": 26782.655398987852,
+      "volume_relative_error": 9.060086941275038e-14,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_002_18_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 18,
+      "actual_solid_count": 18,
+      "expected_volume": 2100.2880133330395,
+      "actual_volume": 2100.2880133482554,
+      "volume_relative_error": 7.244647526466807e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_003_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 6386.445461215318,
+      "actual_volume": 6386.445461216832,
+      "volume_relative_error": 2.371129116577092e-13,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_004_32_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 32,
+      "actual_solid_count": 32,
+      "expected_volume": 1432.086603444125,
+      "actual_volume": 1432.0866034307717,
+      "volume_relative_error": 9.324456044062546e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_005_5_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 5,
+      "actual_solid_count": 5,
+      "expected_volume": 223.76353178814412,
+      "actual_volume": 223.76353178645562,
+      "volume_relative_error": 7.545936203534375e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_006_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 44.752706357628995,
+      "actual_volume": 44.752706357646375,
+      "volume_relative_error": 3.883536154842913e-13,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_007_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 7924.073467704191,
+      "actual_volume": 7924.073467702974,
+      "volume_relative_error": 1.5357049829634487e-13,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_008_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 1846.0588739926636,
+      "actual_volume": 1846.0588739928821,
+      "volume_relative_error": 1.183635609780744e-13,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_009_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 1028.8381589422672,
+      "actual_volume": 1028.8381589416088,
+      "volume_relative_error": 6.400172450451948e-13,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_010_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 6085.745282471124,
+      "actual_volume": 6085.745282471132,
+      "volume_relative_error": 1.34502052518252e-15,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_011_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 1888.7520407345592,
+      "actual_volume": 1888.752109711438,
+      "volume_relative_error": 3.65198169360252e-08,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_012_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 3190.140775794835,
+      "actual_volume": 3190.140775773006,
+      "volume_relative_error": 6.842576510377769e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_013_3_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 3,
+      "actual_solid_count": 3,
+      "expected_volume": 3031.738739784717,
+      "actual_volume": 3031.7387397894677,
+      "volume_relative_error": 1.5670036182102684e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_014_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 4491.755174578524,
+      "actual_volume": 4491.75517457895,
+      "volume_relative_error": 9.476106864387816e-14,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_015_3_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 3,
+      "actual_solid_count": 3,
+      "expected_volume": 566.5481053627758,
+      "actual_volume": 566.5481053645385,
+      "volume_relative_error": 3.1113234731319835e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_016_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 14681.77346820341,
+      "actual_volume": 14681.773468204801,
+      "volume_relative_error": 9.477921020415115e-14,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_017_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 2304.1814968213494,
+      "actual_volume": 2304.181496821493,
+      "volume_relative_error": 6.236494958333753e-14,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_018_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 55.12658422918143,
+      "actual_volume": 55.12658422935434,
+      "volume_relative_error": 3.1366096260992282e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_019_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 26.12731063209195,
+      "actual_volume": 26.127310632133423,
+      "volume_relative_error": 1.5872596822766744e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_020_1_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 1,
+      "actual_solid_count": 1,
+      "expected_volume": 26.127310632091955,
+      "actual_volume": 26.127310632133245,
+      "volume_relative_error": 1.5803248545720472e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    },
+    {
+      "file": "group_021_8_solids.step",
+      "valid": true,
+      "shape_valid": true,
+      "expected_solid_count": 8,
+      "actual_solid_count": 8,
+      "expected_volume": 124.95965484502098,
+      "actual_volume": 124.9596548444985,
+      "volume_relative_error": 4.1811597919913345e-12,
+      "volume_valid": true,
+      "detail": "This shape seems to be valid"
+    }
+  ]
+}

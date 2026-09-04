@@ -4,5 +4,8 @@
   "candidate_clustering": "deterministic agglomerative complete-link",
   "precision_verification": "boolean",
   "precision_vertex_tolerance": 1e-05,
-  "boolean_relative_tolerance": 1e-06
+  "boolean_relative_tolerance": 1e-06,
+  "boolean_batching": "groups of four with globally scheduled singleton failure isolation",
+  "precision_checkpoint": "after every completed Boolean leaf batch",
+  "precision_algorithm_revision": "rigid-fingerprint-adjacent-bins-v2"
 }

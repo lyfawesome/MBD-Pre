@@ -1,0 +1,24 @@
+{
+  "part_count": 84,
+  "nonpositive_volume_parts": [],
+  "zero_face_parts": [],
+  "unknown_curve_uses": 0,
+  "unknown_surface_uses": 0,
+  "curve_types": {
+    "LINE": 14026,
+    "CIRCLE": 32258,
+    "B_SPLINE_CURVE_WITH_KNOTS": 1344
+  },
+  "surface_types": {
+    "CYLINDRICAL_SURFACE": 5372,
+    "CONICAL_SURFACE": 94,
+    "TOROIDAL_SURFACE": 4207,
+    "PLANE": 840,
+    "SPHERICAL_SURFACE": 88
+  },
+  "distance_matrix_symmetry_error": 0.0,
+  "distance_range": [
+    0.0,
+    1.0
+  ]
+}

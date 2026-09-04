@@ -20,21 +20,21 @@
     },
     {
       "group": 4,
-      "solid_count": 32,
-      "file": "group_004_32_solids.step",
-      "bytes": 22498257
+      "solid_count": 29,
+      "file": "group_004_29_solids.step",
+      "bytes": 20373133
     },
     {
       "group": 5,
-      "solid_count": 5,
-      "file": "group_005_5_solids.step",
-      "bytes": 3401436
+      "solid_count": 8,
+      "file": "group_005_8_solids.step",
+      "bytes": 5450853
     },
     {
       "group": 6,
       "solid_count": 1,
       "file": "group_006_1_solids.step",
-      "bytes": 665608
+      "bytes": 665794
     },
     {
       "group": 7,
@@ -138,6 +138,7 @@
       "actual_volume": 26782.655398987852,
       "volume_relative_error": 9.060086941275038e-14,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -150,6 +151,7 @@
       "actual_volume": 2100.2880133482554,
       "volume_relative_error": 7.244647526466807e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -162,30 +164,33 @@
       "actual_volume": 6386.445461216832,
       "volume_relative_error": 2.371129116577092e-13,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
-      "file": "group_004_32_solids.step",
+      "file": "group_004_29_solids.step",
       "valid": true,
       "shape_valid": true,
-      "expected_solid_count": 32,
-      "actual_solid_count": 32,
-      "expected_volume": 1432.086603444125,
-      "actual_volume": 1432.0866034307717,
-      "volume_relative_error": 9.324456044062546e-12,
+      "expected_solid_count": 29,
+      "actual_solid_count": 29,
+      "expected_volume": 1297.8284843712383,
+      "actual_volume": 1297.8284843591828,
+      "volume_relative_error": 9.289039184184803e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
-      "file": "group_005_5_solids.step",
+      "file": "group_005_8_solids.step",
       "valid": true,
       "shape_valid": true,
-      "expected_solid_count": 5,
-      "actual_solid_count": 5,
-      "expected_volume": 223.76353178814412,
-      "actual_volume": 223.76353178645562,
-      "volume_relative_error": 7.545936203534375e-12,
+      "expected_solid_count": 8,
+      "actual_solid_count": 8,
+      "expected_volume": 358.0216508610313,
+      "actual_volume": 358.0216508579653,
+      "volume_relative_error": 8.56362590285211e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -194,10 +199,11 @@
       "shape_valid": true,
       "expected_solid_count": 1,
       "actual_solid_count": 1,
-      "expected_volume": 44.752706357628995,
-      "actual_volume": 44.752706357646375,
-      "volume_relative_error": 3.883536154842913e-13,
+      "expected_volume": 44.75270635762871,
+      "actual_volume": 44.75270635762061,
+      "volume_relative_error": 1.8099882324288427e-13,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -210,6 +216,7 @@
       "actual_volume": 7924.073467702974,
       "volume_relative_error": 1.5357049829634487e-13,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -222,6 +229,7 @@
       "actual_volume": 1846.0588739928821,
       "volume_relative_error": 1.183635609780744e-13,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -234,6 +242,7 @@
       "actual_volume": 1028.8381589416088,
       "volume_relative_error": 6.400172450451948e-13,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -246,6 +255,7 @@
       "actual_volume": 6085.745282471132,
       "volume_relative_error": 1.34502052518252e-15,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -258,6 +268,7 @@
       "actual_volume": 1888.752109711438,
       "volume_relative_error": 3.65198169360252e-08,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -270,6 +281,7 @@
       "actual_volume": 3190.140775773006,
       "volume_relative_error": 6.842576510377769e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -282,6 +294,7 @@
       "actual_volume": 3031.7387397894677,
       "volume_relative_error": 1.5670036182102684e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -294,6 +307,7 @@
       "actual_volume": 4491.75517457895,
       "volume_relative_error": 9.476106864387816e-14,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -306,6 +320,7 @@
       "actual_volume": 566.5481053645385,
       "volume_relative_error": 3.1113234731319835e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -318,6 +333,7 @@
       "actual_volume": 14681.773468204801,
       "volume_relative_error": 9.477921020415115e-14,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -330,6 +346,7 @@
       "actual_volume": 2304.181496821493,
       "volume_relative_error": 6.236494958333753e-14,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -342,6 +359,7 @@
       "actual_volume": 55.12658422935434,
       "volume_relative_error": 3.1366096260992282e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -354,6 +372,7 @@
       "actual_volume": 26.127310632133423,
       "volume_relative_error": 1.5872596822766744e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -366,6 +385,7 @@
       "actual_volume": 26.127310632133245,
       "volume_relative_error": 1.5803248545720472e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     },
     {
@@ -378,6 +398,7 @@
       "actual_volume": 124.9596548444985,
       "volume_relative_error": 4.1811597919913345e-12,
       "volume_valid": true,
+      "volume_relative_tolerance": 1e-06,
       "detail": "This shape seems to be valid"
     }
   ]
