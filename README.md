@@ -56,7 +56,7 @@ python .\step_geometry_encoder.py "C:\Users\LENOVO\Desktop\motor.STEP" --output 
 6. 高精度模式对对齐后实体做 `A-B` 和 `B-A`，候选组只会被拆分，不会被精确层跨组误合并。
 7. 导出各组 STEP，重新导入后检查 Solid 数、体积和 B-Rep 合法性。
 
-详细设计、失败策略和扩展点见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
+详细设计、失败策略和扩展点见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。讨论中形成的算法边界、开源/论文/专利线索、复核原则和 Git 协作约定集中记录在 [docs/PRIOR_ART_AND_COLLABORATION.md](docs/PRIOR_ART_AND_COLLABORATION.md)。
 
 ## 持续数据与算法迭代
 
