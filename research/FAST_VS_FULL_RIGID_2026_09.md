@@ -81,6 +81,40 @@ pair accuracy 很高是因为绝大多数零件对本来就不同，真负例数
 
 全局 rigid 实际执行了57189次变换求解，另有728516次代表件比较被必要刚体不变量安全排除。若禁用这种无损分桶并对所有代表件盲目求变换，rigid 会更慢，但那不是合理的完整 rigid 分组实现。
 
+每个模型的纯核心计时如下；此表假设两种表示都已在内存中，完全不包含 STEP 读取、标准化或表示构造。倍率小于1表示rigid更快。
+
+| 模型 | 快速核心 s | rigid核心 s | rigid/快速 |
+| --- | ---: | ---: | ---: |
+| scalenode_rpi4.step | 0.0104 | 0.0034 | 0.33 |
+| so100_leader.step | 0.0187 | 0.1506 | 8.06 |
+| so100_follower.step | 0.0195 | 0.1557 | 7.97 |
+| hope_arm.step | 0.0219 | 0.0317 | 1.45 |
+| ronin_palmar.step | 0.0059 | 0.0005 | 0.08 |
+| voron_tap.step | 0.1304 | 0.2086 | 1.60 |
+| knode_robot.step | 0.6540 | 0.9724 | 1.49 |
+| hope_hand.step | 0.0322 | 0.2015 | 6.25 |
+| mrf2.step | 0.0412 | 0.0258 | 0.63 |
+| hope_exoskeleton.step | 2.2149 | 4.0094 | 1.81 |
+| hope_glove.step | 2.8789 | 3.8119 | 1.32 |
+| lambda_cnc.step | 2.9576 | 1.6201 | 0.55 |
+| my_first_robot.step | 0.1200 | 0.2844 | 2.37 |
+| so101.step | 1.2668 | 4.5812 | 3.62 |
+| m3_crete.step | 0.1799 | 0.2839 | 1.58 |
+| ronin_dorsal.step | 0.0314 | 1.0054 | 32.07 |
+| hros1_orion.stp | 5.2943 | 12.8314 | 2.42 |
+| voron_stealthburner.step | 0.6652 | 0.7427 | 1.12 |
+| hope_humanoid_arm.step | 0.2590 | 6.1541 | 23.76 |
+| rebot_dm_20260425.step | 2.3453 | 17.5513 | 7.48 |
+| rebot_dm_20260625.step | 2.3425 | 24.4205 | 10.42 |
+| rebot_rs.step | 2.3413 | 22.4000 | 9.57 |
+| olsk_cnc.step | 0.8737 | 0.8862 | 1.01 |
+| renew3d.step | 1.3415 | 2.8182 | 2.10 |
+| voron_legacy.step | 8.7101 | 7.4476 | 0.86 |
+| positron.stp | 3.5602 | 3.8537 | 1.08 |
+| voron_afterburner.step | 1.7352 | 1.0221 | 0.59 |
+| neoracer.step | 5.1206 | 43.3997 | 8.48 |
+| dropbear.step | 75.8319 | 13.0858 | 0.17 |
+
 ## 各模型结果
 
 `组`列为“快速/rigid”；`时间`排除了 STEP 标准化，但包括各自表示构造。P、F1和ARI均以 rigid 为条件真值。
