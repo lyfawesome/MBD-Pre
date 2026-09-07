@@ -24,6 +24,8 @@ The review renderer needs the optional dependencies declared in `pyproject.toml`
 
 Only `precision_mode=boolean` is an accepted final result. `rigid` outputs are screening results used to estimate cost and identify cases that need exact review. The SO-100 comparison demonstrated that a rigid result can materially over-merge geometrically close parts.
 
+The conditional 29-assembly benchmark requested for the WeChat 2026-09 package is recorded in [FAST_VS_FULL_RIGID_2026_09.md](FAST_VS_FULL_RIGID_2026_09.md). It compares fast clustering with global rigid-only representative grouping, excludes STEP normalization from timing, and documents the important fewer-than-three-vertices limitation before treating rigid as ground truth.
+
 ## Human review
 
 Open `human_review/index.html`. Each row shows canonical PCA-aligned isometric, front and top views for a high-risk group, a high-similarity cross-group pair, a precision split, or a random baseline item. The individual normalized STEP files remain one click away for uncertain images. Choices and notes are saved in browser local storage, so a review can be resumed after closing the page. The similarity table is sampled in one streaming pass with bounded memory, including for the 1,515-solid Dropbear model. Select a label and click **导出标注 CSV**. Score the downloaded file with:

@@ -13,9 +13,22 @@ from iteration_engine.gates import evaluate_gates
 from iteration_engine.prescreen import prescreen_candidate
 from iteration_engine.remote_probe import _step_counts
 from scripts.acquire_assembly_data import source_url
+from scripts.benchmark_fast_vs_full_rigid import pair_metrics
 
 
 ROOT = Path(__file__).resolve().parent
+
+
+class FastRigidBenchmarkTest(unittest.TestCase):
+    def test_pair_metrics_distinguish_false_merges_and_splits(self):
+        result = pair_metrics([1, 1, 2, 3], [8, 9, 9, 4])
+        self.assertEqual(result["true_positive_pairs"], 0)
+        self.assertEqual(result["false_positive_pairs"], 1)
+        self.assertEqual(result["false_negative_pairs"], 1)
+        self.assertEqual(result["true_negative_pairs"], 4)
+        self.assertEqual(result["pair_precision"], 0.0)
+        self.assertEqual(result["pair_recall"], 0.0)
+        self.assertEqual(result["pair_accuracy"], 2.0 / 3.0)
 
 
 class CoverageTest(unittest.TestCase):
