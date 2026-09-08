@@ -8,6 +8,12 @@
 
 ## 依赖边界
 
+已有 OCCT 模型的宿主现在可通过 `mbd::occt_fast` 直接传入
+`TopoDS_Shape + BodyId`，详见 [纯内存适配器](../cpp/occt_fast/README.md)。
+适配器只依赖 OCCT 建模模块和 `mbd::fast`，主分类接口兼容 C++17。
+`mbd::fast::describe_topology` 接受内核无关的 `PartTopology`，由 STEP 解析器
+和内存 OCCT 适配器共享，避免描述符算法出现两套实现。
+
 ```text
 外部软件 / 当前 CLI
         |

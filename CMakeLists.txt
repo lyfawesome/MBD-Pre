@@ -15,6 +15,8 @@ if(NOT NLOHMANN_JSON_INCLUDE_DIR)
 endif()
 
 add_subdirectory(cpp/fast)
+include(CTest)
+add_subdirectory(cpp/occt_fast)
 
 add_library(mbd_geometry_cpp
   cpp/src/rigid.cpp
@@ -44,3 +46,15 @@ add_test(
   COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/scripts/check_cpp_parity.py
           $<TARGET_FILE:mbd_geometry_cli>
 )
+
+add_executable(mbd_memory_parity cpp/tests/test_memory_parity.cpp)
+target_link_libraries(mbd_memory_parity PRIVATE mbd_geometry_cpp mbd::occt_fast)
+target_include_directories(mbd_memory_parity PRIVATE ${NLOHMANN_JSON_INCLUDE_DIR})
+
+add_executable(mbd_memory_features cpp/tests/test_memory_features.cpp)
+target_link_libraries(mbd_memory_features PRIVATE mbd_geometry_cpp mbd::occt_fast TKPrim TKBO)
+target_include_directories(mbd_memory_features PRIVATE ${NLOHMANN_JSON_INCLUDE_DIR})
+add_test(NAME memory_step_features COMMAND mbd_memory_features memory-fixtures)
+add_test(NAME memory_python_features
+  COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/scripts/check_memory_parity.py
+          $<TARGET_FILE:mbd_memory_features>)

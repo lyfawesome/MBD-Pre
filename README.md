@@ -92,6 +92,12 @@ python -m unittest -v
 
 ## C++ fast/rigid内核
 
+已有 OCCT 内存模型的外部软件可直接调用纯内存接口
+`mbd::occt_fast::classify(bodies)`：输入 `TopoDS_Shape + BodyId`，输出分组、
+距离矩阵和诊断，无临时 STEP、Python 或子进程。支持 C++17 宿主以及多 Solid
+整体分类，接入方法见 [cpp/occt_fast/README.md](cpp/occt_fast/README.md)，
+Python 一致性验收见 [docs/MEMORY_FAST_ACCEPTANCE.md](docs/MEMORY_FAST_ACCEPTANCE.md)。
+
 快速算法已拆分为无第三方依赖的独立 C++20 库。外部 CMake 项目可直接
 `add_subdirectory(cpp/fast)` 并链接 `mbd::fast`；接口和依赖边界见
 [`docs/FAST_LIBRARY_ARCHITECTURE.md`](docs/FAST_LIBRARY_ARCHITECTURE.md)。

@@ -21,3 +21,8 @@ const mbd::fast::GroupingResult result = mbd::fast::group(parts);
 `PartFeatures` is the integration contract. The caller supplies exact mass
 properties and graph histograms using its own model or file reader. The
 algorithm does not inspect CAD files.
+
+`<mbd_fast/topology.hpp>` additionally accepts kernel-neutral `PartTopology`
+data and computes the graph descriptor entirely in memory. Hosts using OCCT
+shapes can use the sibling [occt_fast adapter](../occt_fast/README.md) to extract
+features and classify bodies directly without STEP serialization.

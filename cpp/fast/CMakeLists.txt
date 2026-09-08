@@ -8,7 +8,7 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
   include(CTest)
 endif()
 
-add_library(mbd_fast src/fast.cpp)
+add_library(mbd_fast src/fast.cpp src/topology.cpp)
 add_library(mbd::fast ALIAS mbd_fast)
 target_compile_features(mbd_fast PUBLIC cxx_std_20)
 target_include_directories(mbd_fast
