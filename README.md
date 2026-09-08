@@ -90,6 +90,31 @@ python -m unittest -v
 
 第一条运行单元、性质与小型 OCCT 端到端测试；第二条再执行真实数据验收，并以工作流质量门禁决定成败。
 
+## C++ fast/rigid内核
+
+快速算法已拆分为无第三方依赖的独立 C++20 库。外部 CMake 项目可直接
+`add_subdirectory(cpp/fast)` 并链接 `mbd::fast`；接口和依赖边界见
+[`docs/FAST_LIBRARY_ARCHITECTURE.md`](docs/FAST_LIBRARY_ARCHITECTURE.md)。
+
+仓库同时保留Python参考实现和可独立运行的C++20实现。C++版本覆盖OCCT STEP读取与拆件、质量属性、STEP图描述符、四通道fast距离、确定性complete-link，以及带顶点/边/面约束的SE(3) rigid复核。Boolean终审和完整审计工作流继续使用Python实现。
+
+```powershell
+.\scripts\validate_cpp.ps1
+
+.\build\cpp-ninja\mbd_geometry_cli.exe run `
+  .\data\input\motor.STEP .\cpp_motor_output rigid
+```
+
+`validate_cpp.ps1`同时运行C++单元测试和由Python即时生成参考结果的跨语言测试。也可以用已有Python运行做真实数据逐分区验收：
+
+```powershell
+.\scripts\validate_cpp.ps1 `
+  -BaselineReport .\runs\motor_compare_rigid_c940dc3\report.json `
+  -NormalizedDirectory .\runs\motor_compare_rigid_c940dc3\normalized_parts
+```
+
+迁移边界、冻结基线和数值容差见 [docs/CPP_MIGRATION_BASELINE.md](docs/CPP_MIGRATION_BASELINE.md)。
+
 ## motor.STEP 发布验收
 
 - 84 个 Solid，18 个候选组，经 74 条迭代精确关系复核后得到 21 个分组。
